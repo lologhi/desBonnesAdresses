@@ -1,0 +1,3 @@
+bonnes_adresses_homepage:
+    path:  /hello/{name}
+    defaults: { _controller: BonnesAdressesBundle:Default:index }

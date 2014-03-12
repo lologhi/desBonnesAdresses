@@ -1,0 +1,4 @@
+bonnes_adresses:
+    resource: "@BonnesAdressesBundle/Resources/config/routing.yml"
+    prefix:   /
+
