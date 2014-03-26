@@ -6,15 +6,27 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class DefaultController extends Controller {
     
-    public function indexAction($name) {
-        $product = $this->get('doctrine_mongodb')->getRepository('BonnesAdressesBundle:Adresse')->findAll();
+    public function indexAction() {
+        $products = $this->get('doctrine_mongodb')->getRepository('BonnesAdressesBundle:Adresse')->findAll();
 
-        if (!$product) {
-            throw $this->createNotFoundException('No product found for id '.$name);
+        if (!$products) {
+            throw $this->createNotFoundException('No product found');
         }
         
-        var_dump($product);
+        //var_dump($product);
         
-        return $this->render('BonnesAdressesBundle:Default:index.html.twig', array('name' => $product));
+        return $this->render('BonnesAdressesBundle:Default:index.html.twig', array('products' => $products));
+    }
+    
+    public function nameAction($name = 'Garance') {
+        $products = $this->get('doctrine_mongodb')->getRepository('BonnesAdressesBundle:Adresse')->findOneByName($name);
+
+        if (!$products) {
+            throw $this->createNotFoundException('No product found');
+        }
+        
+        //var_dump($product);
+        
+        return $this->render('BonnesAdressesBundle:Default:index.html.twig', array('products' => $products));
     }
 }

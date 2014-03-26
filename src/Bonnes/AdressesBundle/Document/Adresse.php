@@ -5,7 +5,7 @@ namespace Bonnes\AdressesBundle\Document;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /**
- * @MongoDB\Document
+ * @MongoDB\Document(collection="Adresse")
  */
 class Adresse
 {
@@ -17,27 +17,52 @@ class Adresse
     /**
      * @MongoDB\String
      */
-    protected $Name;
+    protected $name;
 
     /**
      * @MongoDB\String
      */
-    protected $Adresse;
+    protected $adresse;
 
     /**
      * @MongoDB\String
      */
-    protected $CodePostal;
+    protected $codePostal;
 
     /**
      * @MongoDB\String
      */
-    protected $Ville;
+    protected $ville;
+
+    /**
+     * @MongoDB\String
+     */
+    protected $url;
+
+    /**
+     * @MongoDB\String
+     */
+    protected $origine;
+
+    /**
+     * @MongoDB\String
+     */
+    protected $prix;
+
+    /**
+     * @MongoDB\String
+     */
+    protected $description;
 
     /**
      * @MongoDB\Float
      */
-    protected $price;
+    protected $longitude;
+
+    /**
+     * @MongoDB\Float
+     */
+    protected $latitude;
 
     /**
      * Get id
@@ -57,7 +82,7 @@ class Adresse
      */
     public function setName($name)
     {
-        $this->Name = $name;
+        $this->name = $name;
         return $this;
     }
 
@@ -68,7 +93,7 @@ class Adresse
      */
     public function getName()
     {
-        return $this->Name;
+        return $this->name;
     }
 
     /**
@@ -79,7 +104,7 @@ class Adresse
      */
     public function setAdresse($adresse)
     {
-        $this->Adresse = $adresse;
+        $this->adresse = $adresse;
         return $this;
     }
 
@@ -90,7 +115,7 @@ class Adresse
      */
     public function getAdresse()
     {
-        return $this->Adresse;
+        return $this->adresse;
     }
 
     /**
@@ -101,7 +126,7 @@ class Adresse
      */
     public function setCodePostal($codePostal)
     {
-        $this->CodePostal = $codePostal;
+        $this->codePostal = $codePostal;
         return $this;
     }
 
@@ -112,7 +137,7 @@ class Adresse
      */
     public function getCodePostal()
     {
-        return $this->CodePostal;
+        return $this->codePostal;
     }
 
     /**
@@ -123,7 +148,7 @@ class Adresse
      */
     public function setVille($ville)
     {
-        $this->Ville = $ville;
+        $this->ville = $ville;
         return $this;
     }
 
@@ -134,28 +159,138 @@ class Adresse
      */
     public function getVille()
     {
-        return $this->Ville;
+        return $this->ville;
     }
 
     /**
-     * Set price
+     * Set url
      *
-     * @param float $price
+     * @param string $url
      * @return self
      */
-    public function setPrice($price)
+    public function setUrl($url)
     {
-        $this->price = $price;
+        $this->url = $url;
         return $this;
     }
 
     /**
-     * Get price
+     * Get url
      *
-     * @return float $price
+     * @return string $url
      */
-    public function getPrice()
+    public function getUrl()
     {
-        return $this->price;
+        return $this->url;
+    }
+
+    /**
+     * Set origine
+     *
+     * @param string $origine
+     * @return self
+     */
+    public function setOrigine($origine)
+    {
+        $this->origine = $origine;
+        return $this;
+    }
+
+    /**
+     * Get origine
+     *
+     * @return string $origine
+     */
+    public function getOrigine()
+    {
+        return $this->origine;
+    }
+
+    /**
+     * Set prix
+     *
+     * @param string $prix
+     * @return self
+     */
+    public function setPrix($prix)
+    {
+        $this->prix = $prix;
+        return $this;
+    }
+
+    /**
+     * Get prix
+     *
+     * @return string $prix
+     */
+    public function getPrix()
+    {
+        return $this->prix;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return self
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string $description
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set longitude
+     *
+     * @param float $longitude
+     * @return self
+     */
+    public function setLongitude($longitude)
+    {
+        $this->longitude = $longitude;
+        return $this;
+    }
+
+    /**
+     * Get longitude
+     *
+     * @return float $longitude
+     */
+    public function getLongitude()
+    {
+        return $this->longitude;
+    }
+
+    /**
+     * Set latitude
+     *
+     * @param float $latitude
+     * @return self
+     */
+    public function setLatitude($latitude)
+    {
+        $this->latitude = $latitude;
+        return $this;
+    }
+
+    /**
+     * Get latitude
+     *
+     * @return float $latitude
+     */
+    public function getLatitude()
+    {
+        return $this->latitude;
     }
 }

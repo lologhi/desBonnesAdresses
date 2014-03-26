@@ -1,3 +1,7 @@
 bonnes_adresses_homepage:
-    path:  /hello/{name}
+    path:  /
     defaults: { _controller: BonnesAdressesBundle:Default:index }
+
+bonnes_adresses_namepage:
+    path:  /name/{name}
+    defaults: { _controller: BonnesAdressesBundle:Default:name }
