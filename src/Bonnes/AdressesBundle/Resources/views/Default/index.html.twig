@@ -1,1 +1,88 @@
-{{ dump(products) }}
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>OpenLayers Simplest Example</title>
+		{% block stylesheets %}
+            {% stylesheets
+                '@BonnesAdressesBundle/Resources/public/css/style.css'
+            %}
+                <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+            {% endstylesheets %}
+        {% endblock %}
+	</head>
+	<body>
+		<div id="Map"></div>
+
+		<script src="/bundles/bonnesadresses/js/OpenLayers.js"></script>
+
+		<script type="text/javascript">
+	        var map, mappingLayer, vectorLayer, selectMarkerControl, selectedFeature;
+
+	        function onFeatureSelect(feature) {
+	            selectedFeature = feature;
+	            popup = new OpenLayers.Popup.FramedCloud("tempId", feature.geometry.getBounds().getCenterLonLat(),
+	                                     null,
+	                                     selectedFeature.attributes.Name,
+	                                     null, true);
+	            feature.popup = popup;
+	            map.addPopup(popup);
+	        }
+
+	        function onFeatureUnselect(feature) {
+	            map.removePopup(feature.popup);
+	            feature.popup.destroy();
+	            feature.popup = null;
+	        }
+
+	        function init(){
+	            map = new OpenLayers.Map( 'Map');
+	            mappingLayer = new OpenLayers.Layer.OSM("Simple OSM Map");
+
+	            map.addLayer(mappingLayer);
+	            vectorLayer = new OpenLayers.Layer.Vector("Vector Layer", {projection: "EPSG:4326"});
+	            selectMarkerControl = new OpenLayers.Control.SelectFeature(vectorLayer, {onSelect: onFeatureSelect, onUnselect: onFeatureUnselect});
+	            map.addControl(selectMarkerControl);
+
+				var s = new OpenLayers.Style({
+				  'pointRadius': 10,
+				  'externalGraphic': '/bundles/bonnesadresses/js/img/marker.png'
+				});
+				new OpenLayers.StyleMap(s);
+
+	            selectMarkerControl.activate();
+	            map.addLayer(vectorLayer);
+	            map.setCenter(
+	                new OpenLayers.LonLat({{ products.2.latitude }}, {{ products.2.latitude }}).transform("EPSG:4326", map.getProjectionObject()), 12
+				);
+	        }
+
+			function placeMyMarkers(lat, lon, name) {
+				var lonLat = new OpenLayers.Geometry.Point( lon, lat);
+				lonLat.transform("EPSG:4326", map.getProjectionObject());
+				var style = OpenLayers.Util.extend({
+					externalGraphic : "/bundles/bonnesadresses/js/img/marker.png",
+					pointRadius     : 30
+				}, OpenLayers.Feature.Vector.style['default']);
+				var randomFeature = new OpenLayers.Feature.Vector(lonLat, { Name: name, Lon : lon, Lat : lat});
+				vectorLayer.addFeatures(randomFeature);
+			}
+
+			function placeMyMarkersShit(lat, lon, name) {
+				var position = new OpenLayers.LonLat( lon, lat).transform("EPSG:4326", map.getProjectionObject());
+				var popup = new OpenLayers.Popup.FramedCloud("tempId", position, null, name, null, true);
+				//randomFeature.popup = popup;
+				map.addPopup(popup);
+			}
+
+			init();
+			{% for product in products %}
+				{% if loop.first %}
+					placeMyMarkersShit({{ product.latitude }}, {{ product.longitude }}, '{{ product.name }}');
+				{% endif %}
+				placeMyMarkers({{ product.latitude }}, {{ product.longitude }}, '{{ product.name }}');
+			{% endfor %}
+
+	    </script>
+
+	</body>
+</html>
