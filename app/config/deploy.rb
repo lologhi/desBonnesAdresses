@@ -21,15 +21,12 @@ set  :keep_releases,  3
 set  :use_sudo,       false
 
 # Be more verbose by uncommenting the following line
-# logger.level = Logger::MAX_LEVEL
+logger.level = Logger::MAX_LEVEL
 
 after "deploy:finalize_update" do
   run "cd #{latest_release} && php app/console assetic:dump --env=prod"
   run "cd #{latest_release}/web && touch lastmodification.txt"
   run "sudo chown -R www-data:www-data #{latest_release}/#{cache_path}"
   run "sudo chown -R www-data:www-data #{latest_release}/#{log_path}"
-  run "sudo chown -R www-data:www-data #{latest_release}/app/var"
-  run "mkdir #{latest_release}/web/media"
-  run "sudo chown -R www-data:www-data #{latest_release}/web/media"
   run "sudo chmod -R 777 #{latest_release}/#{cache_path}"
 end
