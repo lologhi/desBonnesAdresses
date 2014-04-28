@@ -13,7 +13,10 @@
 	</head>
 	<body>
 		<div id="Map"></div>
+		<div id="content"></div>
 
+		<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+		<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 		<script src="/bundles/bonnesadresses/js/OpenLayers.js"></script>
 
 		<script type="text/javascript">
@@ -24,12 +27,26 @@
 
 	        function onFeatureSelect(feature) {
 	            selectedFeature = feature;
-	            popup = new OpenLayers.Popup.FramedCloud("tempId", feature.geometry.getBounds().getCenterLonLat(),
-	                                     null,
-	                                     selectedFeature.attributes.Name,
-	                                     null, true);
+	            popup = new OpenLayers.Popup.FramedCloud("tempId", feature.geometry.getBounds().getCenterLonLat(), null, selectedFeature.attributes.Name, null, true);
 	            feature.popup = popup;
 	            map.addPopup(popup);
+				$.post(
+			        'http://local.desbonnesadresses.fr/app_dev.php/address/' + feature.data.Id,
+			        {id: feature.data.Id},
+			        function(response){
+						console.log(response);
+			            if(response.id == feature.data.Id) {
+							$('#content').empty();
+							$.each(response, function( index, value ) {
+								if(value == null) {
+								} else {
+									$('#content').append( '<br>' + index + ' : ' + value );
+								}
+							});
+			            }
+			        },
+			        "json")
+				console.log(feature.data.Id);
 	        }
 
 	        function onFeatureUnselect(feature) {
@@ -39,7 +56,7 @@
 	        }
 
 	        function init(){
-	            map = new OpenLayers.Map( 'Map');
+	            map = new OpenLayers.Map('Map');
 	            mappingLayer = new OpenLayers.Layer.OSM("Simple OSM Map");
 
 	            map.addLayer(mappingLayer);
@@ -55,36 +72,30 @@
 
 	            selectMarkerControl.activate();
 	            map.addLayer(vectorLayer);
-	            map.setCenter(
-	                new OpenLayers.LonLat({{ products.2.latitude }}, {{ products.2.latitude }}).transform("EPSG:4326", map.getProjectionObject()), 12
-				);
+	            center();
 	        }
 
-			function placeMyMarkers(lat, lon, name) {
+			// Centré sur Notre Dame de Paris
+			function center() {
+				map.setCenter(new OpenLayers.LonLat(2.3499021, 48.8529682).transform("EPSG:4326", map.getProjectionObject()), 13);
+			}
+
+			function placeMyMarkers(lat, lon, name, id) {
 				var lonLat = new OpenLayers.Geometry.Point( lon, lat);
 				lonLat.transform("EPSG:4326", map.getProjectionObject());
 				var style = OpenLayers.Util.extend({
 					externalGraphic : "/bundles/bonnesadresses/js/img/marker.png",
-					pointRadius     : 30
+					pointRadius     : 20
 				}, OpenLayers.Feature.Vector.style['default']);
-				var randomFeature = new OpenLayers.Feature.Vector(lonLat, { Name: name, Lon : lon, Lat : lat});
+				var randomFeature = new OpenLayers.Feature.Vector(lonLat, { Name: name, Id: id, Lon : lon, Lat : lat});
 				vectorLayer.addFeatures(randomFeature);
-			}
-
-			function placeMyMarkersShit(lat, lon, name) {
-				var position = new OpenLayers.LonLat( lon, lat).transform("EPSG:4326", map.getProjectionObject());
-				var popup = new OpenLayers.Popup.FramedCloud("tempId", position, null, name, null, true);
-				//randomFeature.popup = popup;
-				map.addPopup(popup);
 			}
 
 			init();
 			{% for product in products %}
-				{% if loop.first %}
-					placeMyMarkersShit({{ product.latitude }}, {{ product.longitude }}, '{{ product.name }}');
-				{% endif %}
-				placeMyMarkers({{ product.latitude }}, {{ product.longitude }}, '{{ product.name }}');
+				placeMyMarkers({{ product.latitude }}, {{ product.longitude }}, '{{ product.name }}', '{{ product.id }}');
 			{% endfor %}
+
 
 	    </script>
 
