@@ -31,7 +31,7 @@
 	            feature.popup = popup;
 	            map.addPopup(popup);
 				$.post(
-			        'http://local.desbonnesadresses.fr/app_dev.php/address/' + feature.data.Id,
+			        'address/' + feature.data.Id,
 			        {id: feature.data.Id},
 			        function(response){
 						console.log(response);
