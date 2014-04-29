@@ -12,15 +12,10 @@ use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 class DefaultController extends Controller {
 
     public function indexAction() {
-        $products = $this->get('doctrine_mongodb')->getRepository('BonnesAdressesBundle:Adresse')->findAll();
+        $addresses = $this->get('doctrine_mongodb')->getRepository('BonnesAdressesBundle:Adresse')->findAll();
+        if (!$addresses) { throw $this->createNotFoundException('No addresses found'); }
 
-        if (!$products) {
-            throw $this->createNotFoundException('No product found');
-        }
-
-        //var_dump($product);
-
-        return $this->render('BonnesAdressesBundle:Default:index.html.twig', array('products' => $products));
+        return $this->render('BonnesAdressesBundle:Default:index.html.twig', array('addresses' => $addresses));
     }
 
     public function addressAction(Request $request) {
@@ -39,6 +34,9 @@ class DefaultController extends Controller {
     }
 
     public function detailsAction($name) {
-        
+        $address = $this->get('doctrine_mongodb')->getRepository('BonnesAdressesBundle:Adresse')->findOneBySlug($name);
+        if (!$address) { throw $this->createNotFoundException('No address found'); }
+
+        return $this->render('BonnesAdressesBundle:Default:index.html.twig', array('addresses' => array($address)));
     }
 }
