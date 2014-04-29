@@ -3,6 +3,7 @@
 namespace Bonnes\AdressesBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @MongoDB\Document(collection="Adresse")
@@ -18,6 +19,12 @@ class Adresse
      * @MongoDB\String
      */
     protected $name;
+
+    /**
+     * @Gedmo\Slug(fields={"name"})
+     * @MongoDB\String
+     */
+    protected $slug;
 
     /**
      * @MongoDB\String
@@ -94,6 +101,28 @@ class Adresse
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     * @return self
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string $slug
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 
     /**
