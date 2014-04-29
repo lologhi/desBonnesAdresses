@@ -57,8 +57,8 @@
 	            feature.popup = popup;
 	            map.addPopup(popup);
 				$.post(
-			        'address/' + feature.data.Id,
-			        {id: feature.data.Id},
+			        "{{ path('bonnes_adresses_namepage') }}",
+			        {idAddress: feature.data.Id},
 			        function(response){
 						//console.log(response);
 			            if(response.id == feature.data.Id) {

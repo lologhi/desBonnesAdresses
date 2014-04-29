@@ -3,5 +3,6 @@ bonnes_adresses_homepage:
     defaults: { _controller: BonnesAdressesBundle:Default:index }
 
 bonnes_adresses_namepage:
-    path:  /address/{id}
+    path:  /address
     defaults: { _controller: BonnesAdressesBundle:Default:address }
+    methods:   [POST]

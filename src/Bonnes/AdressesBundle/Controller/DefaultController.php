@@ -4,6 +4,7 @@ namespace Bonnes\AdressesBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
@@ -22,12 +23,12 @@ class DefaultController extends Controller {
         return $this->render('BonnesAdressesBundle:Default:index.html.twig', array('products' => $products));
     }
 
-    public function addressAction($id) {
-        $address = $this->get('doctrine_mongodb')->getRepository('BonnesAdressesBundle:Adresse')->find($id);
+    public function addressAction(Request $request) {
+        $id = $request->request->get('idAddress');
+        if (!$id) { throw $this->createNotFoundException('No id found'); }
 
-        if (!$address) {
-            throw $this->createNotFoundException('No address found');
-        }
+        $address = $this->get('doctrine_mongodb')->getRepository('BonnesAdressesBundle:Adresse')->find($id);
+        if (!$address) { throw $this->createNotFoundException('No address found'); }
 
         $encoders = array(new JsonEncoder());
         $normalizers = array(new GetSetMethodNormalizer());
