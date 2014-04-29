@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
+use Gedmo\Sluggable\Util as Sluggable;
 
 class DefaultController extends Controller {
 
@@ -38,5 +39,23 @@ class DefaultController extends Controller {
         if (!$address) { throw $this->createNotFoundException('No address found'); }
 
         return $this->render('BonnesAdressesBundle:Default:index.html.twig', array('addresses' => array($address)));
+    }
+
+    public function slugfeederAction() {
+        $em = $this->get('doctrine_mongodb');
+        $addresses = $em->getRepository('BonnesAdressesBundle:Adresse')->findAll();
+        if (!$addresses) { throw $this->createNotFoundException('No addresses found'); }
+
+        foreach($addresses as $address) {
+            if ($address->getSlug() == '') {
+                $slug = Sluggable\Urlizer::urlize($address->getName(), '-');
+                $address->setSlug($slug);
+                $dm = $this->get('doctrine_mongodb')->getManager();
+                $dm->persist($address);
+                $dm->flush();
+            }
+        }
+
+        return $this->render('BonnesAdressesBundle:Default:index.html.twig', array('addresses' => $addresses));
     }
 }
