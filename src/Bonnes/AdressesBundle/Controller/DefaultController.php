@@ -37,4 +37,8 @@ class DefaultController extends Controller {
 
         return new Response($jsonAddress);
     }
+
+    public function detailsAction($name) {
+        
+    }
 }

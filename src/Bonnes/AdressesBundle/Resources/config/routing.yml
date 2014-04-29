@@ -6,3 +6,8 @@ bonnes_adresses_namepage:
     path:  /address
     defaults: { _controller: BonnesAdressesBundle:Default:address }
     methods:   [POST]
+
+bonnes_adresses_namepage:
+    path:  /address/{name}
+    defaults: { _controller: BonnesAdressesBundle:Default:details, name }
+    methods:   [GET]
