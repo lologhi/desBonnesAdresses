@@ -71,7 +71,12 @@
 							});
 			            }
 			        },
-			        "json")
+			        "json");
+				//document.title = response.name;
+				if(selectedFeature.attributes.Url != window.location) {
+					// L'URL actuelle n'est pas la même que la théorique
+					window.history.pushState(selectedFeature.attributes.Url, selectedFeature.attributes.Name, selectedFeature.attributes.Url);
+				}
 				//console.log(feature.data.Id);
 	        }
 
@@ -115,21 +120,30 @@
 				map.setCenter(new OpenLayers.LonLat(2.3499021, 48.8529682).transform("EPSG:4326", map.getProjectionObject()), 13);
 			}
 
-			function placeMyMarkers(lat, lon, name, id) {
+			function placeMyMarkers(lat, lon, name, url, id) {
 				var lonLat = new OpenLayers.Geometry.Point( lon, lat);
 				lonLat.transform("EPSG:4326", map.getProjectionObject());
 				var style = OpenLayers.Util.extend({
 					externalGraphic : "/bundles/bonnesadresses/js/img/marker.png",
 					pointRadius     : 20
 				}, OpenLayers.Feature.Vector.style['default']);
-				var randomFeature = new OpenLayers.Feature.Vector(lonLat, { Name: name, Id: id, Lon : lon, Lat : lat});
+				var randomFeature = new OpenLayers.Feature.Vector(lonLat, { Name: name, Url: url, Id: id, Lon : lon, Lat : lat});
 				vectorLayer.addFeatures(randomFeature);
 			}
 
 			init();
-			{% for product in products %}
-				placeMyMarkers({{ product.latitude }}, {{ product.longitude }}, '{{ product.name }}', '{{ product.id }}');
+			{% for address in addresses %}
+				{% set url = url('bonnes_adresses_detailpage', {'name': address.slug}) %}
+				placeMyMarkers({{ address.latitude }}, {{ address.longitude }}, '{{ address.name }}', '{{ url }}', '{{ address.id }}');
 			{% endfor %}
+
+			/* http://www.tinywall.info/2012/02/change-browser-url-without-page-reload-refresh-with-ajax-request-using-javascript-html5-history-api-php-jquery-like-facebook-github-navigation-menu.html */
+			/* the below code is to override back button to get the ajax content without page reload*/
+			/*$(window).bind('popstate', function() {
+				$.ajax({url:location.pathname+'?rel=tab',success: function(data){
+					$('#content').html(data);
+				}});
+			});/**/
 
 
 	    </script>
