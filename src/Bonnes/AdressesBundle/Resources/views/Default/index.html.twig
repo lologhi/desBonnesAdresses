@@ -1,25 +1,40 @@
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="fr" >
 	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Des bonnes adresses Parisiennes</title>
 		<meta name="description" content="Une sélection de mes adresses préférées à Paris. Restaurants, bars à vin, pubs, cafés..." />
 		{% block stylesheets %}
             {% stylesheets
+				'%kernel.root_dir%/../components/foundation/css/normalize.css'
+				'%kernel.root_dir%/../components/foundation/css/foundation.min.css'
                 '@BonnesAdressesBundle/Resources/public/css/style.css'
             %}
                 <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
             {% endstylesheets %}
         {% endblock %}
+		<script src="%kernel.root_dir%/../components/modernizr/modernizr.js"></script>
 	</head>
 	<body>
 		<div id="Map"></div>
 		<div id="content"></div>
 
-		<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-		<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+		{% block javascripts %}
+            {% javascripts
+                '%kernel.root_dir%/../components/jquery/jquery.min.js'
+                '%kernel.root_dir%/../components/foundation/js/foundation.min.js'
+                filter='yui_js' %}
+                <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+		{% endblock %}
+
 		<script src="/bundles/bonnesadresses/js/OpenLayers.js"></script>
 
 		<script type="text/javascript">
+
+			$(document).foundation();
 
 		//http://stackoverflow.com/questions/9895951/how-to-display-multiple-markers-with-individual-framecloud-popups-in-openlayers
 
