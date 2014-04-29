@@ -2,12 +2,10 @@ bonnes_adresses_homepage:
     path:  /
     defaults: { _controller: BonnesAdressesBundle:Default:index }
 
+bonnes_adresses_detailpage:
+    path:  /adresse/{name}
+    defaults: { _controller: BonnesAdressesBundle:Default:details, name: '' }
 bonnes_adresses_namepage:
     path:  /address
     defaults: { _controller: BonnesAdressesBundle:Default:address }
     methods:   [POST]
-
-bonnes_adresses_detailpage:
-    path:  /address/{name}
-    defaults: { _controller: BonnesAdressesBundle:Default:details, name: '' }
-    methods:   [GET]
