@@ -17,6 +17,7 @@ class Adresse
 
     /**
      * @MongoDB\String
+     * @MongoDB\Index(unique=true, order="asc")
      */
     protected $name;
 
