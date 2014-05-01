@@ -35,10 +35,12 @@ class DefaultController extends Controller {
     }
 
     public function detailsAction($name) {
+        $addresses = $this->get('doctrine_mongodb')->getRepository('BonnesAdressesBundle:Adresse')->findAll();
+        if (!$addresses) { throw $this->createNotFoundException('No addresses found'); }
         $address = $this->get('doctrine_mongodb')->getRepository('BonnesAdressesBundle:Adresse')->findOneBySlug($name);
         if (!$address) { throw $this->createNotFoundException('No address found'); }
 
-        return $this->render('BonnesAdressesBundle:Default:index.html.twig', array('addresses' => array($address)));
+        return $this->render('BonnesAdressesBundle:Default:index.html.twig', array('addresses' => $addresses, 'specificAddress' => $address));
     }
 
     public function slugfeederAction() {

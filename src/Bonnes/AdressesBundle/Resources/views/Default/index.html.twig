@@ -26,6 +26,11 @@
 			<div id="content">
 				<table>
 					<tbody>
+						{% if specificAddress is defined %}
+							<tr><td>name</td><td>{{ specificAddress.name }}</td></tr>
+							<tr><td>longitude</td><td>{{ specificAddress.longitude }}</td></tr>
+							<tr><td>latitude</td><td>{{ specificAddress.latitude }}</td></tr>
+						{% endif %}
 					</tbody>
 				</table>
 			</div>
@@ -126,8 +131,14 @@
 				var style = OpenLayers.Util.extend({
 					externalGraphic : "/bundles/bonnesadresses/js/img/marker.png",
 					pointRadius     : 20
+			function placeMySpecificMarkers(lat, lon, name, url, id) {
+				var lonLat = new OpenLayers.Geometry.Point( lon, lat);
+				lonLat.transform("EPSG:4326", map.getProjectionObject());
+				var specialStyle = OpenLayers.Util.extend({
+					externalGraphic : "/bundles/bonnesadresses/js/img/marker-blue.png",
+					graphicOpacity: 1
 				}, OpenLayers.Feature.Vector.style['default']);
-				var randomFeature = new OpenLayers.Feature.Vector(lonLat, { Name: name, Url: url, Id: id, Lon : lon, Lat : lat});
+				var randomFeature = new OpenLayers.Feature.Vector(lonLat, { Name: name, Url: url, Id: id, Lon : lon, Lat : lat}, specialStyle);
 				vectorLayer.addFeatures(randomFeature);
 			}
 
@@ -135,6 +146,11 @@
 			{% for address in addresses %}
 				{% set url = url('bonnes_adresses_detailpage', {'name': address.slug}) %}
 				placeMyMarkers({{ address.latitude }}, {{ address.longitude }}, '{{ address.name }}', '{{ url }}', '{{ address.id }}');
+				{% if (specificAddress is defined) and (address.id == specificAddress.id) %}
+					placeMySpecificMarkers({{ address.latitude }}, {{ address.longitude }}, '{{ address.name }}', '{{ url }}', '{{ address.id }}');
+				{% else %}
+					placeMyMarkers({{ address.latitude }}, {{ address.longitude }}, '{{ address.name }}', '{{ url }}', '{{ address.id }}');
+				{% endif %}
 			{% endfor %}
 
 			/* http://www.tinywall.info/2012/02/change-browser-url-without-page-reload-refresh-with-ajax-request-using-javascript-html5-history-api-php-jquery-like-facebook-github-navigation-menu.html */
