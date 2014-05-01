@@ -29,4 +29,7 @@ after "deploy:finalize_update" do
   run "sudo chown -R www-data:www-data #{latest_release}/#{cache_path}"
   run "sudo chown -R www-data:www-data #{latest_release}/#{log_path}"
   run "sudo chmod -R 777 #{latest_release}/#{cache_path}"
+  run "sudo mongo bonnesadresses --eval 'db.Adresse.remove({}) '"
+  run "sudo mongoimport -d bonnesadresses -c Adresse --file StarredPlaces.geojson --jsonArray"
+  run "curl http://desbonnesadresses.fr/slugfeeder"
 end
