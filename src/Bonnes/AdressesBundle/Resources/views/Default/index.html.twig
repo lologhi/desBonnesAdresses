@@ -16,7 +16,14 @@
                 <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
             {% endstylesheets %}
         {% endblock %}
-		<script src="%kernel.root_dir%/../components/modernizr/modernizr.js"></script>
+
+		{% block javascriptHeader %}
+			{% javascripts
+				'%kernel.root_dir%/../components/modernizr/modernizr.js'
+				filter='yui_js' %}
+				<script type="text/javascript" src="{{ asset_url }}"></script>
+			{% endjavascripts %}
+		{% endblock %}
 	</head>
 	<body>
 		<div class="small-8 columns">
