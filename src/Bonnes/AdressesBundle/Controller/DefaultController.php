@@ -16,6 +16,7 @@ class DefaultController extends Controller {
         $addresses = $this->get('doctrine_mongodb')->getRepository('BonnesAdressesBundle:Adresse')->findAll();
         if (!$addresses) { throw $this->createNotFoundException('No addresses found'); }
 
+        // http://www.testically.org/2011/08/25/using-a-unique-index-in-mongodb-with-doctrine-odm-and-symfony2/
         $dm = $this->get('doctrine_mongodb')->getManager();
         $dm->getSchemaManager()->ensureIndexes();
 
