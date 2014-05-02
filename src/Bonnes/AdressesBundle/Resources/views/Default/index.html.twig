@@ -41,7 +41,12 @@
 					</tbody>
 				</table>
 			</div>
-			<a href="https://plus.google.com/u/0/+LaurentGhirardotti?rel=author">LaurentGh</a>
+			<p>
+				{% if lastmodification is defined %}
+					Dernier commit le {{ lastmodification|date("d/m/Y") }} à {{ lastmodification|date("G:i") }} par
+				{% endif %}
+				<a href="https://plus.google.com/u/0/+LaurentGhirardotti?rel=author">LaurentGh</a>
+			</p>
 		</div>
 
 		{% block javascripts %}

@@ -13,6 +13,9 @@ use Gedmo\Sluggable\Util as Sluggable;
 class DefaultController extends Controller {
 
     public function indexAction() {
+        $filename = 'lastmodification.txt';
+		if (file_exists($filename)) { $lastmodification = new \DateTime(file_get_contents($filename)); }
+
         $addresses = $this->get('doctrine_mongodb')->getRepository('BonnesAdressesBundle:Adresse')->findAll();
         if (!$addresses) { throw $this->createNotFoundException('No addresses found'); }
 
@@ -20,7 +23,7 @@ class DefaultController extends Controller {
         $dm = $this->get('doctrine_mongodb')->getManager();
         $dm->getSchemaManager()->ensureIndexes();
 
-        return $this->render('BonnesAdressesBundle:Default:index.html.twig', array('addresses' => $addresses));
+        return $this->render('BonnesAdressesBundle:Default:index.html.twig', array('addresses' => $addresses, 'lastmodification' => $lastmodification));
     }
 
     public function addressAction(Request $request) {
