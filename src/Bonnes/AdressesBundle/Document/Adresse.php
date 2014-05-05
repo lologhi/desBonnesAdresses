@@ -63,6 +63,11 @@ class Adresse
     protected $description;
 
     /**
+     * @MongoDB\String
+     */
+    protected $marker;
+
+    /**
      * @MongoDB\Float
      */
     protected $longitude;
@@ -278,6 +283,28 @@ class Adresse
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Set marker
+     *
+     * @param string $marker
+     * @return self
+     */
+    public function setMarker($marker)
+    {
+        $this->marker = $marker;
+        return $this;
+    }
+
+    /**
+     * Get marker
+     *
+     * @return string $marker
+     */
+    public function getMarker()
+    {
+        return $this->marker;
     }
 
     /**
