@@ -43,9 +43,7 @@ function displayAddressDetails(response) {
 		$('#content tbody').append('<tr><td>marker</td><td itemprop="url">' + response.marker + '</td></tr>');
 	}
 
-	$('#content tbody').append('<tr><td>longitude</td><td>' + response.longitude + '</td></tr>');
-	$('#content tbody').append('<tr><td>latitude</td><td>' + response.latitude + '</td></tr>');
-
+	$('#content tbody').append('<tr><td>lat, long</td><td>' + response.latitude + ', ' + response.longitude + '<div itemprop="geo" itemscope itemtype="http://schema.org/GeoCoordinates"><meta itemprop="latitude" content="' + response.latitude + '" /><meta itemprop="longitude" content="' + response.longitude + '" /></div></td></tr>');
 }
 
 function onFeatureSelect(feature) {

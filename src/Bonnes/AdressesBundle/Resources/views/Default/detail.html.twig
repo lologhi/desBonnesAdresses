@@ -6,7 +6,7 @@
 		<tr>
 			<td>adresse</td>
 			<td>
-				<span class="postalAddress" itemprop="address" itemscope="" itemtype="http://schema.org/PostalAddress">
+				<span class="postalAddress" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
 					{% if (address.adresse is defined) and (address.adresse != '') %}
 						<span itemprop="streetAddress">{{ address.adresse }} </span>
 					{% endif %}
@@ -29,9 +29,9 @@
 		<tr>
 			<td>description</td>
 			<td>
-				<span class="review" itemprop="review" itemscope="" itemtype="http://schema.org/Review">
+				<span class="review" itemprop="review" itemscope itemtype="http://schema.org/Review">
 					{% if (address.origine is defined) and (address.origine != '') %}
-						(via <span itemprop="author" itemscope="" itemtype="http://schema.org/Person">{{ address.origine }}</span>)
+						(via <span itemprop="author" itemscope itemtype="http://schema.org/Person">{{ address.origine }}</span>)
 					{% endif %}
 					{% if (address.description is defined) and (address.description != '') %}
 						<span itemprop="reviewBody">{{ address.description }}</span>
@@ -42,6 +42,14 @@
 	{% endif %}
 
 	<tr><td>marker</td><td itemprop="url">{{ address.marker }}</td></tr>
-	<tr><td>longitude</td><td>{{ address.longitude }}</td></tr>
-	<tr><td>latitude</td><td>{{ address.latitude }}</td></tr>
+	<tr>
+		<td>lat, long</td>
+		<td>
+			{{ address.latitude }}, {{ address.longitude }}
+			<div itemprop="geo" itemscope itemtype="http://schema.org/GeoCoordinates">
+				<meta itemprop="latitude" content="{{ address.latitude }}" />
+				<meta itemprop="longitude" content="{{ address.longitude }}" />
+			</div>
+		</td>
+	</tr>
 </tbody>
