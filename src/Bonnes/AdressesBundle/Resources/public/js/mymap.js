@@ -7,26 +7,43 @@ OpenLayers.ImgPath = "/bundles/bonnesadresses/js/img/";
 
 function displayAddressDetails(response) {
 	$('#content tbody').empty();
-	excluded = ['id', 'slug'];
-	$.each(response, function( index, value ) {
-		if(value == null || excluded.indexOf(index) >= 0) {
-		} else {
-			switch(index) {
-				case 'name':
-					$('#content tbody').append( '<tr><td>' + index + '</td><td><span itemprop="name">' + value + '</span></tr>' );
-					break;
-				case 'adresse':
-					$('#content tbody').append( '<tr><td>' + index + '</td><td><span itemprop="street-address">' + value + '</span></tr>' );
-					break;
-				case 'ville':
-					$('#content tbody').append( '<tr><td>' + index + '</td><td><span itemprop="locality">' + value + '</span></tr>' );
-					break;
-				default:
-					$('#content tbody').append( '<tr><td>' + index + '</td><td>' + value + '</tr>' );
-					break;
-			}
+
+	$('#content tbody').append('<tr><td>name</td><td><span itemprop="name" itemprop="name">' + response.name + '</span></td></tr>');
+
+	if (response.adresse != null || response.codePostal != null || response.ville != null) {
+		$('#content tbody').append('<tr><td>adresse</td><td><span class="postalAddress" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress"></span></td></tr>');
+		if (response.adresse != null) {
+			$('#content tbody .postalAddress').append('<span itemprop="streetAddress" itemprop="street-address">' + response.adresse + ' </span>');
 		}
-	});
+		if (response.codePostal != null) {
+			$('#content tbody .postalAddress').append('<span itemprop="postalCode">' + response.codePostal + ' </span>');
+		}
+		if (response.ville != null) {
+			$('#content tbody .postalAddress').append('<span itemprop="addressLocality" itemprop="locality">' + response.ville + '</span>');
+		}
+	}
+
+	if (response.url != null) {
+		$('#content tbody').append('<tr><td>url</td><td itemprop="url">' + response.url + '</td></tr>');
+	}
+
+	if (response.origine != null || response.description != null) {
+		$('#content tbody').append('<tr><td>description</td><td><span class="review" itemprop="review" itemscope itemtype="http://schema.org/Review"></span></td></tr>');
+		if (response.origine != null) {
+			$('#content tbody .review').append('(via <span itemprop="author" itemscope itemtype="http://schema.org/Person"><td itemprop="name">' + response.origine + '</span>) ');
+		}
+		if (response.description != null) {
+			$('#content tbody .review').append('<span itemprop="reviewBody">' + response.description + '</span>');
+		}
+	}
+
+	if (response.marker != null) {
+		$('#content tbody').append('<tr><td>marker</td><td itemprop="url">' + response.marker + '</td></tr>');
+	}
+
+	$('#content tbody').append('<tr><td>longitude</td><td>' + response.longitude + '</td></tr>');
+	$('#content tbody').append('<tr><td>latitude</td><td>' + response.latitude + '</td></tr>');
+
 }
 
 function onFeatureSelect(feature) {

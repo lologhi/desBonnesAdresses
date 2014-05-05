@@ -8,9 +8,9 @@
 		<div id="map"></div>
 	</div>
 	<div class="small-4 columns">
-		<div id="content" itemscope itemtype="http://data-vocabulary.org/Organization">
+		<div id="content">
 			<table>
-				<tbody>
+				<tbody itemscope itemtype="http://schema.org/LocalBusiness">
 					{% if specificAddressJson is defined %}
 						<script>
 							window.onload = function () {
