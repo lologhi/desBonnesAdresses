@@ -11,7 +11,7 @@ function onFeatureSelect(feature) {
 	feature.popup = popup;
 	map.addPopup(popup);
 	$.post(
-		"{{ path('bonnes_adresses_namepage') }}",
+		selectedFeature.attributes.DetailUrl,
 		{idAddress: feature.data.Id},
 		function(response){
 			//console.log(response);
@@ -74,25 +74,16 @@ function center() {
 	map.setCenter(new OpenLayers.LonLat(2.3499021, 48.8529682).transform("EPSG:4326", map.getProjectionObject()), 13);
 }
 
-function placeMyMarkers(lat, lon, name, url, id) {
+function placeMyMarkers(lat, lon, name, url, id, marker, detailUrl) {
 	var lonLat = new OpenLayers.Geometry.Point( lon, lat);
 	lonLat.transform("EPSG:4326", map.getProjectionObject());
 	var defaultStyle = OpenLayers.Util.extend({
-		externalGraphic : "/bundles/bonnesadresses/js/img/marker-blue.png",
+		externalGraphic : "/bundles/bonnesadresses/images/maki-icons/" + marker + "-18.png",
+		graphicWidth : 18,
+		graphicHeight : 18,
 		graphicOpacity: 1
 	}, OpenLayers.Feature.Vector.style['default']);
-	var randomFeature = new OpenLayers.Feature.Vector(lonLat, { Name: name, Url: url, Id: id, Lon : lon, Lat : lat}, defaultStyle);
-	vectorLayer.addFeatures(randomFeature);
-}
-
-function placeMyMarkersAlcohol(lat, lon, name, url, id) {
-	var lonLat = new OpenLayers.Geometry.Point( lon, lat);
-	lonLat.transform("EPSG:4326", map.getProjectionObject());
-	var alcoholStyle = OpenLayers.Util.extend({
-		externalGraphic : "/bundles/bonnesadresses/js/img/marker-gold.png",
-		graphicOpacity: 1
-	}, OpenLayers.Feature.Vector.style['default']);
-	var randomFeature = new OpenLayers.Feature.Vector(lonLat, { Name: name, Url: url, Id: id, Lon : lon, Lat : lat}, alcoholStyle);
+	var randomFeature = new OpenLayers.Feature.Vector(lonLat, { Name: name, Url: url, Id: id, Lon : lon, Lat : lat, DetailUrl: detailUrl}, defaultStyle);
 	vectorLayer.addFeatures(randomFeature);
 }
 

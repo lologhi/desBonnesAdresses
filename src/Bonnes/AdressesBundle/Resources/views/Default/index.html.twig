@@ -44,12 +44,8 @@
 				{% set url = url('bonnes_adresses_detailpage', {'name': address.slug}) %}
 				{% if (specificAddress is defined) and (address.id == specificAddress.id) %}
 					placeMySpecificMarkers({{ address.latitude }}, {{ address.longitude }}, '{{ address.name }}', '{{ url }}', '{{ address.id }}');
-				{% elseif (address.marker is defined) and (address.marker == 'alcohol-shop') %}
-					console.log("{{ address.marker }}");
-					console.log('Je suis passé par là !');
-					placeMyMarkersAlcohol({{ address.latitude }}, {{ address.longitude }}, '{{ address.name }}', '{{ url }}', '{{ address.id }}');
 				{% else %}
-					placeMyMarkers({{ address.latitude }}, {{ address.longitude }}, '{{ address.name }}', '{{ url }}', '{{ address.id }}');
+					placeMyMarkers({{ address.latitude }}, {{ address.longitude }}, '{{ address.name }}', '{{ url }}', '{{ address.id }}', '{{ address.marker }}', "{{ path('bonnes_adresses_namepage') }}");
 				{% endif %}
 			{% endfor %}
 		</script>
