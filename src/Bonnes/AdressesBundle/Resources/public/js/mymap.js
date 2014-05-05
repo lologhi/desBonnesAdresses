@@ -17,8 +17,9 @@ function onFeatureSelect(feature) {
 			//console.log(response);
 			if(response.id == feature.data.Id) {
 				$('#content tbody').empty();
+				excluded = ['id', 'slug'];
 				$.each(response, function( index, value ) {
-					if(value == null) {
+					if(value == null || excluded.indexOf(index) >= 0) {
 					} else {
 						$('#content tbody').append( '<tr><td>' + index + '</td><td>' + value + '</tr>' );
 					}
