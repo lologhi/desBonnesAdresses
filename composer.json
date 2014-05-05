@@ -23,7 +23,8 @@
         "sonata-project/admin-bundle": "2.3.x-dev",
         "sonata-project/doctrine-mongodb-admin-bundle": "dev-master",
         "components/foundation": "dev-master",
-        "stof/doctrine-extensions-bundle": "~1.1@dev"
+        "stof/doctrine-extensions-bundle": "~1.1@dev",
+        "presta/sitemap-bundle": "dev-master"
     },
     "minimum-stability": "dev",
     "scripts": {

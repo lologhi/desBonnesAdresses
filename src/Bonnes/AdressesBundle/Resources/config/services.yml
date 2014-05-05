@@ -7,3 +7,8 @@ services:
         tags:
             - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Adresses", label: "Adresses" }
         arguments: [null, Bonnes\AdressesBundle\Document\Adresse, null]
+
+    my.sitemap.listener:
+        class: Bonnes\AdressesBundle\EventListener\SitemapListener
+        arguments: [@router, @doctrine_mongodb]
+        tags: [{name: "presta.sitemap.listener"}]

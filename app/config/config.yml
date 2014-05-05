@@ -72,3 +72,6 @@ sonata_block:
         # Enable the SonataAdminBundle block
         sonata.admin.block.admin_list:
             contexts:   [admin]
+
+presta_sitemap:
+    dumper_base_url: "http://desbonnesadresses.fr/"
