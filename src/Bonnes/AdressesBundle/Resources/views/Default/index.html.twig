@@ -1,31 +1,8 @@
-<!DOCTYPE html>
-<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
-<html class="no-js" lang="fr" >
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="google-site-verification" content="oAVB5I8P5jphS5McZPl0u8Q8XtBGCEIPQ2fbhEHnw-U" />
-		<title>Des bonnes adresses Parisiennes</title>
-		<meta name="description" content="Une sélection de mes adresses préférées à Paris. Restaurants, bars à vin, pubs, cafés..." />
-		{% block stylesheets %}
-            {% stylesheets
-				'%kernel.root_dir%/../components/foundation/css/normalize.css'
-				'%kernel.root_dir%/../components/foundation/css/foundation.min.css'
-                '@BonnesAdressesBundle/Resources/public/css/style.css'
-            %}
-                <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
-            {% endstylesheets %}
-        {% endblock %}
+{% extends '::base.html.twig' %}
 
-		{% block javascriptHeader %}
-			{% javascripts
-				'%kernel.root_dir%/../components/modernizr/modernizr.js'
-				filter='yui_js' %}
-				<script type="text/javascript" src="{{ asset_url }}"></script>
-			{% endjavascripts %}
-		{% endblock %}
-	</head>
-	<body>
+{% block title %}{% if specificAddress is defined %}{{ specificAddress.name }} - {% endif %}Des bonnes adresses Parisiennes{% endblock %}
+
+	{% block body %}
 		<div class="small-8 columns">
 			<div id="map"></div>
 		</div>
@@ -48,118 +25,21 @@
 				<a href="https://plus.google.com/u/0/+LaurentGhirardotti?rel=author">LaurentGh</a>
 			</p>
 		</div>
+	{% endblock %}
 
-		{% block javascripts %}
-            {% javascripts
-                '%kernel.root_dir%/../components/jquery/jquery.min.js'
-                '%kernel.root_dir%/../components/foundation/js/foundation.min.js'
-                filter='yui_js' %}
-                <script type="text/javascript" src="{{ asset_url }}"></script>
-            {% endjavascripts %}
-		{% endblock %}
+	{% block javascripts %}
+		{{ parent() }}
 
-		<script src="/bundles/bonnesadresses/js/OpenLayers.js"></script>
+        {% javascripts
+            '%kernel.root_dir%/../components/jquery/jquery.min.js'
+            '%kernel.root_dir%/../components/foundation/js/foundation.min.js'
+			'@BonnesAdressesBundle/Resources/public/js/OpenLayers.js'
+			'@BonnesAdressesBundle/Resources/public/js/mymap.js'
+            filter='yui_js' %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
 
-		<script type="text/javascript">
-
-			$(document).foundation();
-
-		//http://stackoverflow.com/questions/9895951/how-to-display-multiple-markers-with-individual-framecloud-popups-in-openlayers
-
-	        var map, mappingLayer, bingRoad, vectorLayer, selectMarkerControl, selectedFeature;
-
-	        function onFeatureSelect(feature) {
-	            selectedFeature = feature;
-	            popup = new OpenLayers.Popup.FramedCloud("tempId", feature.geometry.getBounds().getCenterLonLat(), null, selectedFeature.attributes.Name, null, true);
-	            feature.popup = popup;
-	            map.addPopup(popup);
-				$.post(
-			        "{{ path('bonnes_adresses_namepage') }}",
-			        {idAddress: feature.data.Id},
-			        function(response){
-						//console.log(response);
-			            if(response.id == feature.data.Id) {
-							$('#content tbody').empty();
-							$.each(response, function( index, value ) {
-								if(value == null) {
-								} else {
-									$('#content tbody').append( '<tr><td>' + index + '</td><td>' + value + '</tr>' );
-								}
-							});
-			            }
-			        },
-			        "json");
-				//document.title = response.name;
-				if(selectedFeature.attributes.Url != window.location) {
-					// L'URL actuelle n'est pas la même que la théorique
-					window.history.pushState(selectedFeature.attributes.Url, selectedFeature.attributes.Name, selectedFeature.attributes.Url);
-				}
-				//console.log(feature.data.Id);
-	        }
-
-	        function onFeatureUnselect(feature) {
-	            map.removePopup(feature.popup);
-	            feature.popup.destroy();
-	            feature.popup = null;
-	        }
-
-	        function init(){
-	            map = new OpenLayers.Map( 'map');
-				var apiKey = 'Am9j4sJYRl62rzLT5ux_MRqxxkvw4fzCaH8KS1kdAcjvg_QDznR_DhaTlZ7qhq3C';
-
-				// Default OSM imagerySet
-				mappingLayer = new OpenLayers.Layer.OSM("OpenStreetMap");
-				// Bing's Road imagerySet (http://openlayers.org/blog/2010/12/18/bing-tiles-for-openlayers/)
-				// Et https://www.bingmapsportal.com/
-				bingRoad = new OpenLayers.Layer.Bing({key: apiKey, type: "Road"});
-				map.addLayers([bingRoad, mappingLayer]);
-				map.addControl(new OpenLayers.Control.LayerSwitcher());
-
-	            vectorLayer = new OpenLayers.Layer.Vector("Vector Layer", {projection: "EPSG:4326"});
-
-				selectMarkerControl = new OpenLayers.Control.SelectFeature(vectorLayer, {onSelect: onFeatureSelect, onUnselect: onFeatureUnselect});
-	            map.addControl(selectMarkerControl);
-
-				var s = new OpenLayers.Style({'pointRadius': 10, 'externalGraphic': '/bundles/bonnesadresses/js/img/marker.png'});
-				new OpenLayers.StyleMap(s);
-
-	            selectMarkerControl.activate();
-	            map.addLayer(vectorLayer);
-
-				var scaleline = new OpenLayers.Control.ScaleLine();
-				map.addControl(scaleline);
-
-	            center();
-	        }
-
-			// Centré sur Notre Dame de Paris
-			function center() {
-				map.setCenter(new OpenLayers.LonLat(2.3499021, 48.8529682).transform("EPSG:4326", map.getProjectionObject()), 13);
-			}
-
-			function placeMyMarkers(lat, lon, name, url, id) {
-				var lonLat = new OpenLayers.Geometry.Point( lon, lat);
-				lonLat.transform("EPSG:4326", map.getProjectionObject());
-				var style = OpenLayers.Util.extend({
-					fillColor : "#0A00FF",
-					graphicOpacity: 1
-				}, OpenLayers.Feature.Vector.style['default']);
-				var randomFeature = new OpenLayers.Feature.Vector(lonLat, { Name: name, Url: url, Id: id, Lon : lon, Lat : lat}, style);
-				vectorLayer.addFeatures(randomFeature);
-			}
-
-			function placeMySpecificMarkers(lat, lon, name, url, id) {
-				var lonLat = new OpenLayers.Geometry.Point( lon, lat);
-				lonLat.transform("EPSG:4326", map.getProjectionObject());
-				var specialStyle = OpenLayers.Util.extend({
-					externalGraphic : "/bundles/bonnesadresses/js/img/marker-blue.png",
-					graphicOpacity: 1
-				}, OpenLayers.Feature.Vector.style['default']);
-				var randomFeature = new OpenLayers.Feature.Vector(lonLat, { Name: name, Url: url, Id: id, Lon : lon, Lat : lat}, specialStyle);
-				vectorLayer.addFeatures(randomFeature);
-			}
-
-			init();
+		<script>
 			{% for address in addresses %}
 				{% set url = url('bonnes_adresses_detailpage', {'name': address.slug}) %}
 				{% if (specificAddress is defined) and (address.id == specificAddress.id) %}
@@ -168,27 +48,6 @@
 					placeMyMarkers({{ address.latitude }}, {{ address.longitude }}, '{{ address.name }}', '{{ url }}', '{{ address.id }}');
 				{% endif %}
 			{% endfor %}
-
-			/* http://www.tinywall.info/2012/02/change-browser-url-without-page-reload-refresh-with-ajax-request-using-javascript-html5-history-api-php-jquery-like-facebook-github-navigation-menu.html */
-			/* the below code is to override back button to get the ajax content without page reload*/
-			/*$(window).bind('popstate', function() {
-				$.ajax({url:location.pathname+'?rel=tab',success: function(data){
-					$('#content').html(data);
-				}});
-			});/**/
-
-
-	    </script>
-
-		<script>
-		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-		  ga('create', 'UA-50457724-1', 'desbonnesadresses.fr');
-		  ga('send', 'pageview');
 		</script>
 
-	</body>
-</html>
+	{% endblock %}
