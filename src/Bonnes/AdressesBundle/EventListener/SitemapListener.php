@@ -44,7 +44,7 @@ class SitemapListener implements SitemapListenerInterface {
 				new UrlConcrete(
 					$url,
 					new \DateTime(),
-					UrlConcrete::CHANGEFREQ_HOURLY,
+					UrlConcrete::CHANGEFREQ_WEEKLY,
 					1
 				),
 				'default'
