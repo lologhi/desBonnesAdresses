@@ -10,15 +10,13 @@
 	<div class="small-4 columns">
 		<div id="content">
 			<table>
-				<tbody itemscope itemtype="http://schema.org/LocalBusiness">
-					{% if specificAddressJson is defined %}
-						<script>
-							window.onload = function () {
-								displayAddressDetails({{ specificAddressJson|raw }});
-							}
-						</script>
-					{% endif %}
-				</tbody>
+				{% if specificAddressJson is defined %}
+					<script>
+						window.onload = function () {
+							displayAddressDetails({{ specificAddressJson|raw }});
+						}
+					</script>
+				{% endif %}
 			</table>
 		</div>
 		<p>

@@ -6,7 +6,9 @@ var map, mappingLayer, bingRoad, vectorLayer, selectMarkerControl, selectedFeatu
 OpenLayers.ImgPath = "/bundles/bonnesadresses/js/img/";
 
 function displayAddressDetails(response) {
-	$('#content tbody').empty();
+	$('#content table').empty();
+
+	$('#content table').append('<tbody itemscope itemtype="http://schema.org/LocalBusiness"></tbody>');
 
 	$('#content tbody').append('<tr><td>name</td><td><span itemprop="name" itemprop="name">' + response.name + '</span></td></tr>');
 
