@@ -12,6 +12,16 @@ use Gedmo\Sluggable\Util as Sluggable;
 
 class DefaultController extends Controller {
 
+    private $encoders;
+    private $normalizers;
+    private $serializer;
+
+    public function __construct() {
+        $this->encoders = array(new JsonEncoder());
+        $this->normalizers = array(new GetSetMethodNormalizer());
+        $this->serializer = new Serializer($this->normalizers, $this->encoders);
+    }
+
     public function indexAction() {
         $filename = 'lastmodification.txt';
 		if (file_exists($filename)) { $lastmodification = new \DateTime(file_get_contents($filename)); }
@@ -33,12 +43,7 @@ class DefaultController extends Controller {
         $address = $this->get('doctrine_mongodb')->getRepository('BonnesAdressesBundle:Adresse')->find($id);
         if (!$address) { throw $this->createNotFoundException('No address found'); }
 
-        $encoders = array(new JsonEncoder());
-        $normalizers = array(new GetSetMethodNormalizer());
-        $serializer = new Serializer($normalizers, $encoders);
-        $jsonAddress = $serializer->serialize($address, 'json');
-
-        return new Response($jsonAddress);
+        return new Response($this->serializer->serialize($address, 'json'));
     }
 
     public function detailsAction($name) {
@@ -47,7 +52,7 @@ class DefaultController extends Controller {
         $address = $this->get('doctrine_mongodb')->getRepository('BonnesAdressesBundle:Adresse')->findOneBySlug($name);
         if (!$address) { throw $this->createNotFoundException('No address found'); }
 
-        return $this->render('BonnesAdressesBundle:Default:index.html.twig', array('addresses' => $addresses, 'specificAddress' => $address));
+        return $this->render('BonnesAdressesBundle:Default:index.html.twig', array('addresses' => $addresses, 'specificAddress' => $address, 'specificAddressJson' => $this->serializer->serialize($address, 'json')));
     }
 
     public function slugfeederAction() {

@@ -5,6 +5,31 @@ $(document).foundation();
 var map, mappingLayer, bingRoad, vectorLayer, selectMarkerControl, selectedFeature;
 OpenLayers.ImgPath = "/bundles/bonnesadresses/js/img/";
 
+function displayAddressDetails(response) {
+	$('#content tbody').empty();
+	excluded = ['id', 'slug'];
+	$.each(response, function( index, value ) {
+		if(value == null || excluded.indexOf(index) >= 0) {
+		} else {
+			switch(index) {
+			case 'name':
+				$('#content tbody').append( '<tr><td>' + index + '</td><td><span itemprop="name">' + value + '</span></tr>' );
+				break;
+			case 'adresse':
+				$('#content tbody').append( '<tr><td>' + index + '</td><td><span itemprop="address" itemscope
+      itemtype="http://data-vocabulary.org/Address"><span itemprop="street-address">' + value + '</span></span></tr>' );
+				break;
+			case 'ville':
+				$('#content tbody').append( '<tr><td>' + index + '</td><td><span itemprop="address" itemscope
+	itemtype="http://data-vocabulary.org/Address"><span itemprop="locality">' + value + '</span></span></tr>' );
+				break;
+			default:
+				$('#content tbody').append( '<tr><td>' + index + '</td><td>' + value + '</tr>' );
+			}
+		}
+	});
+}
+
 function onFeatureSelect(feature) {
 	selectedFeature = feature;
 	popup = new OpenLayers.Popup.FramedCloud("tempId", feature.geometry.getBounds().getCenterLonLat(), null, selectedFeature.attributes.Name, null, true);
@@ -16,14 +41,7 @@ function onFeatureSelect(feature) {
 		function(response){
 			//console.log(response);
 			if(response.id == feature.data.Id) {
-				$('#content tbody').empty();
-				excluded = ['id', 'slug'];
-				$.each(response, function( index, value ) {
-					if(value == null || excluded.indexOf(index) >= 0) {
-					} else {
-						$('#content tbody').append( '<tr><td>' + index + '</td><td>' + value + '</tr>' );
-					}
-				});
+				displayAddressDetails(response);
 			}
 		},
 		"json");
