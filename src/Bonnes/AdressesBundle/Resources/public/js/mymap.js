@@ -3,7 +3,7 @@ $(document).foundation();
 //http://stackoverflow.com/questions/9895951/how-to-display-multiple-markers-with-individual-framecloud-popups-in-openlayers
 
 var map, mappingLayer, bingRoad, vectorLayer, selectMarkerControl, selectedFeature;
-OpenLayers.ImgPath = "/bundles/bonnesadresses/js/img/"
+OpenLayers.ImgPath = "/bundles/bonnesadresses/js/img/";
 
 function onFeatureSelect(feature) {
 	selectedFeature = feature;
@@ -77,11 +77,22 @@ function center() {
 function placeMyMarkers(lat, lon, name, url, id) {
 	var lonLat = new OpenLayers.Geometry.Point( lon, lat);
 	lonLat.transform("EPSG:4326", map.getProjectionObject());
-	var style = OpenLayers.Util.extend({
-		fillColor : "#0A00FF",
+	var defaultStyle = OpenLayers.Util.extend({
+		externalGraphic : "/bundles/bonnesadresses/js/img/marker-blue.png",
 		graphicOpacity: 1
 	}, OpenLayers.Feature.Vector.style['default']);
-	var randomFeature = new OpenLayers.Feature.Vector(lonLat, { Name: name, Url: url, Id: id, Lon : lon, Lat : lat}, style);
+	var randomFeature = new OpenLayers.Feature.Vector(lonLat, { Name: name, Url: url, Id: id, Lon : lon, Lat : lat}, defaultStyle);
+	vectorLayer.addFeatures(randomFeature);
+}
+
+function placeMyMarkersAlcohol(lat, lon, name, url, id) {
+	var lonLat = new OpenLayers.Geometry.Point( lon, lat);
+	lonLat.transform("EPSG:4326", map.getProjectionObject());
+	var alcoholStyle = OpenLayers.Util.extend({
+		externalGraphic : "/bundles/bonnesadresses/js/img/marker-gold.png",
+		graphicOpacity: 1
+	}, OpenLayers.Feature.Vector.style['default']);
+	var randomFeature = new OpenLayers.Feature.Vector(lonLat, { Name: name, Url: url, Id: id, Lon : lon, Lat : lat}, alcoholStyle);
 	vectorLayer.addFeatures(randomFeature);
 }
 
@@ -89,7 +100,7 @@ function placeMySpecificMarkers(lat, lon, name, url, id) {
 	var lonLat = new OpenLayers.Geometry.Point( lon, lat);
 	lonLat.transform("EPSG:4326", map.getProjectionObject());
 	var specialStyle = OpenLayers.Util.extend({
-		externalGraphic : "/bundles/bonnesadresses/js/img/marker-blue.png",
+		externalGraphic : "/bundles/bonnesadresses/js/img/marker.png",
 		graphicOpacity: 1
 	}, OpenLayers.Feature.Vector.style['default']);
 	var randomFeature = new OpenLayers.Feature.Vector(lonLat, { Name: name, Url: url, Id: id, Lon : lon, Lat : lat}, specialStyle);
