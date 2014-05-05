@@ -11,11 +11,7 @@
 		<div id="content">
 			<table>
 				{% if specificAddressJson is defined %}
-					<script>
-						window.onload = function () {
-							displayAddressDetails({{ specificAddressJson|raw }});
-						}
-					</script>
+					{% include 'BonnesAdressesBundle:Default:detail.html.twig' with {'address': specificAddress} %}
 				{% endif %}
 			</table>
 		</div>

@@ -1,0 +1,47 @@
+<tbody itemscope="" itemtype="http://schema.org/LocalBusiness">
+
+	<tr><td>name</td><td><span itemprop="name">{{ address.name }}</span></td></tr>
+
+	{% if ((address.adresse is defined) and (address.adresse != '')) or ((address.codePostal is defined) and (address.codePostal != '')) or ((address.ville is defined) and (address.ville != '')) %}
+		<tr>
+			<td>adresse</td>
+			<td>
+				<span class="postalAddress" itemprop="address" itemscope="" itemtype="http://schema.org/PostalAddress">
+					{% if (address.adresse is defined) and (address.adresse != '') %}
+						<span itemprop="streetAddress">{{ address.adresse }} </span>
+					{% endif %}
+					{% if (address.codePostal is defined) and (address.codePostal != '') %}
+						<span itemprop="postalCode">{{ address.codePostal }} </span>
+					{% endif %}
+					{% if (address.ville is defined) and (address.ville != '') %}
+						<span itemprop="addressLocality">{{ address.ville }}</span>
+					{% endif %}
+				</span>
+			</td>
+		</tr>
+	{% endif %}
+
+	{% if (address.url is defined) and (address.url != '') %}
+		<tr><td>url</td><td itemprop="url">{{ address.url }}</td></tr>
+	{% endif %}
+
+	{% if ((address.origine is defined) and (address.origine != '')) or ((address.description is defined) and (address.description != '')) %}
+		<tr>
+			<td>description</td>
+			<td>
+				<span class="review" itemprop="review" itemscope="" itemtype="http://schema.org/Review">
+					{% if (address.origine is defined) and (address.origine != '') %}
+						(via <span itemprop="author" itemscope="" itemtype="http://schema.org/Person">{{ address.origine }}</span>)
+					{% endif %}
+					{% if (address.description is defined) and (address.description != '') %}
+						<span itemprop="reviewBody">{{ address.description }}</span>
+					{% endif %}
+				</span>
+			</td>
+		</tr>
+	{% endif %}
+
+	<tr><td>marker</td><td itemprop="url">{{ address.marker }}</td></tr>
+	<tr><td>longitude</td><td>{{ address.longitude }}</td></tr>
+	<tr><td>latitude</td><td>{{ address.latitude }}</td></tr>
+</tbody>
