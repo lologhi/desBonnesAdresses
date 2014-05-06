@@ -10,6 +10,22 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Adresse
 {
+
+    public function getAdresseComplete() {
+        $adresseComplete = '';
+        if ($this->adresse != '') {
+            $adresseComplete .= $this->adresse;
+        }
+        if ($this->codePostal != '') {
+            $adresseComplete .= ' ' . $this->codePostal;
+        }
+        if ($this->ville != '') {
+            $adresseComplete .= ' ' . $this->ville;
+        }
+
+        return $adresseComplete;
+    }
+
     /**
      * @MongoDB\Id
      */

@@ -1,6 +1,7 @@
 {% extends '::base.html.twig' %}
 
-{% block title %}{% if specificAddress is defined %}{{ specificAddress.name }} - {% endif %}Des bonnes adresses Parisiennes{% endblock %}
+{% block title %}{% if specificAddress is defined %}{{ specificAddress.name }} - {% endif %}{{ parent() }}{% endblock %}
+{% block description %}{{ specificAddressComplete }}{% if specificAddress.description != "" %} - {{ specificAddress.description|truncate(100, true, '...') }}{% endif %}{% endblock %}
 
 
 {% block body %}
@@ -10,7 +11,7 @@
 	<div class="small-4 columns">
 		<div id="content">
 			<table>
-				{% if specificAddressJson is defined %}
+				{% if specificAddress is defined %}
 					{% include 'BonnesAdressesBundle:Default:detail.html.twig' with {'address': specificAddress} %}
 				{% endif %}
 			</table>

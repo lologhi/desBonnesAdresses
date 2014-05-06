@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="google-site-verification" content="oAVB5I8P5jphS5McZPl0u8Q8XtBGCEIPQ2fbhEHnw-U" />
         <title>{% block title %}Des bonnes adresses Parisiennes{% endblock %}</title>
-        <meta name="description" content="Une sélection de mes adresses préférées à Paris. Restaurants, bars à vin, pubs, cafés..." />
+        <meta name="description" content="{% block description %}Une sélection de mes adresses préférées à Paris. Restaurants, bars à vin, pubs, cafés...{% endblock %}" />
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 
         {% block stylesheets %}

@@ -52,7 +52,7 @@ class DefaultController extends Controller {
         $address = $this->get('doctrine_mongodb')->getRepository('BonnesAdressesBundle:Adresse')->findOneBySlug($name);
         if (!$address) { throw $this->createNotFoundException('No address found'); }
 
-        return $this->render('BonnesAdressesBundle:Default:index.html.twig', array('addresses' => $addresses, 'specificAddress' => $address, 'specificAddressJson' => $this->serializer->serialize($address, 'json')));
+        return $this->render('BonnesAdressesBundle:Default:index.html.twig', array('addresses' => $addresses, 'specificAddress' => $address, 'specificAddressComplete' => $address->getAdresseComplete()));
     }
 
     public function slugfeederAction() {

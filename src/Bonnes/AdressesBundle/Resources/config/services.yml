@@ -12,3 +12,8 @@ services:
         class: Bonnes\AdressesBundle\EventListener\SitemapListener
         arguments: [@router, @doctrine_mongodb]
         tags: [{name: "presta.sitemap.listener"}]
+
+    twig.extension.text:
+        class: Twig_Extensions_Extension_Text
+        tags:
+            - { name: twig.extension }
