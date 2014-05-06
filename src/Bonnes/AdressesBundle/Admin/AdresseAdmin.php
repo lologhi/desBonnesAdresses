@@ -8,21 +8,27 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 
 class AdresseAdmin extends Admin {
-    
+
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper) {
         $formMapper
+            ->with('Général', array('class' => 'col-md-6'))
+            ->with('Blabla', array('class' => 'col-md-6'))
+        ;
+
+        $formMapper->with('Général')
             ->add('name')
             ->add('adresse')
             ->add('codePostal')
             ->add('ville')
+            ->add('telephone')
             ->add('url')
-            ->add('url')
-            ->add('origine')
-            ->add('prix')
-            ->add('description')
-            ->add('longitude')
-            ->add('latitude')
+        ;
+
+        $formMapper->with('Blabla')
+            ->add('origine', null, array('required' => false))
+            ->add('description', 'textarea', array('required' => false))
+            ->add('prix', null, array('required' => false))
         ;
     }
 
@@ -42,6 +48,7 @@ class AdresseAdmin extends Admin {
             ->add('adresse')
             ->add('codePostal')
             ->add('ville')
+            ->add('telephone')
         ;
     }
 }

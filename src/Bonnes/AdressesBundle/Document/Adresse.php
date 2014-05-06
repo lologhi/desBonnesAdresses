@@ -11,6 +11,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class Adresse
 {
 
+    public function __toString() {
+        return $this->name;
+    }
+
     public function getAdresseComplete() {
         $adresseComplete = '';
         if ($this->adresse != '') {
@@ -57,6 +61,11 @@ class Adresse
      * @MongoDB\String
      */
     protected $ville;
+
+    /**
+     * @MongoDB\String
+     */
+    protected $telephone;
 
     /**
      * @MongoDB\String
@@ -211,6 +220,28 @@ class Adresse
     public function getVille()
     {
         return $this->ville;
+    }
+
+    /**
+     * Set telephone
+     *
+     * @param string $telephone
+     * @return self
+     */
+    public function setTelephone($telephone)
+    {
+        $this->telephone = $telephone;
+        return $this;
+    }
+
+    /**
+     * Get telephone
+     *
+     * @return string $telephone
+     */
+    public function getTelephone()
+    {
+        return $this->telephone;
     }
 
     /**

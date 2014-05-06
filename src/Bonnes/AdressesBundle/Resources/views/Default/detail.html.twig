@@ -34,7 +34,7 @@
 						(via <span itemprop="author" itemscope itemtype="http://schema.org/Person">{{ address.origine }}</span>)
 					{% endif %}
 					{% if (address.description is defined) and (address.description != '') %}
-						<span itemprop="reviewBody">{{ address.description }}</span>
+						<span itemprop="reviewBody">{{ address.description|raw }}</span>
 					{% endif %}
 				</span>
 			</td>
