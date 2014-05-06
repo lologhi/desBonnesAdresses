@@ -6,44 +6,48 @@ var map, mappingLayer, bingRoad, vectorLayer, selectMarkerControl, selectedFeatu
 OpenLayers.ImgPath = "/bundles/bonnesadresses/js/img/";
 
 function displayAddressDetails(response) {
-	$('#content table').empty();
+	$('#content').empty();
 
-	$('#content table').append('<tbody itemscope itemtype="http://schema.org/LocalBusiness"></tbody>');
+	$('#content').append('<div itemscope="" itemtype="http://schema.org/LocalBusiness"></div>');
 
-	$('#content tbody').append('<tr><td>name</td><td><span itemprop="name" itemprop="name">' + response.name + '</span></td></tr>');
+	$('#content div').append('<h1 itemprop="name">' + response.name + '</h1>');
 
 	if (response.adresse != null || response.codePostal != null || response.ville != null) {
-		$('#content tbody').append('<tr><td>adresse</td><td><span class="postalAddress" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress"></span></td></tr>');
+		$('#content div').append('<p class="postalAddress" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress"></p>');
 		if (response.adresse != null) {
-			$('#content tbody .postalAddress').append('<span itemprop="streetAddress" itemprop="street-address">' + response.adresse + ' </span>');
+			$('#content div .postalAddress').append('<span itemprop="streetAddress" itemprop="street-address">' + response.adresse + ' </span>');
 		}
 		if (response.codePostal != null) {
-			$('#content tbody .postalAddress').append('<span itemprop="postalCode">' + response.codePostal + ' </span>');
+			$('#content div .postalAddress').append('<span itemprop="postalCode">' + response.codePostal + ' </span>');
 		}
 		if (response.ville != null) {
-			$('#content tbody .postalAddress').append('<span itemprop="addressLocality" itemprop="locality">' + response.ville + '</span>');
+			$('#content div .postalAddress').append('<span itemprop="addressLocality" itemprop="locality">' + response.ville + '</span>');
 		}
+	}
+
+	if (response.telephone != null) {
+		$('#content div').append('<p itemprop="telephone">' + response.telephone + '</p>');
 	}
 
 	if (response.url != null) {
-		$('#content tbody').append('<tr><td>url</td><td itemprop="url">' + response.url + '</td></tr>');
+		$('#content div').append('<p itemprop="url">' + response.url + '</p>');
 	}
 
 	if (response.origine != null || response.description != null) {
-		$('#content tbody').append('<tr><td>description</td><td><span class="review" itemprop="review" itemscope itemtype="http://schema.org/Review"></span></td></tr>');
-		if (response.origine != null) {
-			$('#content tbody .review').append('(via <span itemprop="author" itemscope itemtype="http://schema.org/Person"><td itemprop="name">' + response.origine + '</span>) ');
-		}
+		$('#content div').append('<blockquote class="review" itemprop="review" itemscope itemtype="http://schema.org/Review"></blockquote>');
 		if (response.description != null) {
-			$('#content tbody .review').append('<span itemprop="reviewBody">' + response.description + '</span>');
+			$('#content div .review').append('<p itemprop="reviewBody">' + response.description + '</p>');
+		}
+		if (response.origine != null) {
+			$('#content div .review p').append('<cite itemprop="author" itemscope itemtype="http://schema.org/Person"><td itemprop="name">' + response.origine + '</cite>');
 		}
 	}
 
 	if (response.marker != null) {
-		$('#content tbody').append('<tr><td>marker</td><td itemprop="url">' + response.marker + '</td></tr>');
+		$('#content div').append('<p>' + response.marker + '</p>');
 	}
 
-	$('#content tbody').append('<tr><td>lat, long</td><td>' + response.latitude + ', ' + response.longitude + '<div itemprop="geo" itemscope itemtype="http://schema.org/GeoCoordinates"><meta itemprop="latitude" content="' + response.latitude + '" /><meta itemprop="longitude" content="' + response.longitude + '" /></div></td></tr>');
+	$('#content div').append('<p>' + response.latitude + ', ' + response.longitude + '<div itemprop="geo" itemscope itemtype="http://schema.org/GeoCoordinates"><meta itemprop="latitude" content="' + response.latitude + '" /><meta itemprop="longitude" content="' + response.longitude + '" /></p>');
 }
 
 function onFeatureSelect(feature) {

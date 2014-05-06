@@ -1,55 +1,48 @@
-<tbody itemscope="" itemtype="http://schema.org/LocalBusiness">
+<div itemscope="" itemtype="http://schema.org/LocalBusiness">
 
-	<tr><td>name</td><td><span itemprop="name">{{ address.name }}</span></td></tr>
+	<h1 itemprop="name">{{ address.name }}</h1>
 
 	{% if ((address.adresse is defined) and (address.adresse != '')) or ((address.codePostal is defined) and (address.codePostal != '')) or ((address.ville is defined) and (address.ville != '')) %}
-		<tr>
-			<td>adresse</td>
-			<td>
-				<span class="postalAddress" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
-					{% if (address.adresse is defined) and (address.adresse != '') %}
-						<span itemprop="streetAddress">{{ address.adresse }} </span>
-					{% endif %}
-					{% if (address.codePostal is defined) and (address.codePostal != '') %}
-						<span itemprop="postalCode">{{ address.codePostal }} </span>
-					{% endif %}
-					{% if (address.ville is defined) and (address.ville != '') %}
-						<span itemprop="addressLocality">{{ address.ville }}</span>
-					{% endif %}
-				</span>
-			</td>
-		</tr>
+		<p class="postalAddress" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+			{% if (address.adresse is defined) and (address.adresse != '') %}
+				<span itemprop="streetAddress" itemprop="street-address">{{ address.adresse }} </span>
+			{% endif %}
+			{% if (address.codePostal is defined) and (address.codePostal != '') %}
+				<span itemprop="postalCode">{{ address.codePostal }} </span>
+			{% endif %}
+			{% if (address.ville is defined) and (address.ville != '') %}
+				<span itemprop="addressLocality">{{ address.ville }}</span>
+			{% endif %}
+		</p>
+	{% endif %}
+
+	{% if (address.telephone is defined) and (address.telephone != '') %}
+		<p itemprop="telephone">{{ address.telephone }}</p>
 	{% endif %}
 
 	{% if (address.url is defined) and (address.url != '') %}
-		<tr><td>url</td><td itemprop="url">{{ address.url }}</td></tr>
+		<p itemprop="url">{{ address.url }}</p>
 	{% endif %}
 
 	{% if ((address.origine is defined) and (address.origine != '')) or ((address.description is defined) and (address.description != '')) %}
-		<tr>
-			<td>description</td>
-			<td>
-				<span class="review" itemprop="review" itemscope itemtype="http://schema.org/Review">
+		<blockquote class="review" itemprop="review" itemscope itemtype="http://schema.org/Review">
+			{% if (address.description is defined) and (address.description != '') %}
+				<p itemprop="reviewBody">
+					{{ address.description|raw }}
 					{% if (address.origine is defined) and (address.origine != '') %}
-						(via <span itemprop="author" itemscope itemtype="http://schema.org/Person">{{ address.origine }}</span>)
+						<cite itemprop="author" itemscope itemtype="http://schema.org/Person">{{ address.origine }}</cite>
 					{% endif %}
-					{% if (address.description is defined) and (address.description != '') %}
-						<span itemprop="reviewBody">{{ address.description|raw }}</span>
-					{% endif %}
-				</span>
-			</td>
-		</tr>
+				</p>
+			{% endif %}
+		</blockquote>
 	{% endif %}
 
-	<tr><td>marker</td><td>{{ address.marker }}</td></tr>
-	<tr>
-		<td>lat, long</td>
-		<td>
-			{{ address.latitude }}, {{ address.longitude }}
-			<div itemprop="geo" itemscope itemtype="http://schema.org/GeoCoordinates">
-				<meta itemprop="latitude" content="{{ address.latitude }}" />
-				<meta itemprop="longitude" content="{{ address.longitude }}" />
-			</div>
-		</td>
-	</tr>
-</tbody>
+	<p>{{ address.marker }}</p>
+	<p>
+		{{ address.latitude }}, {{ address.longitude }}
+		<div itemprop="geo" itemscope itemtype="http://schema.org/GeoCoordinates">
+			<meta itemprop="latitude" content="{{ address.latitude }}" />
+			<meta itemprop="longitude" content="{{ address.longitude }}" />
+		</div>
+	</p>
+</div>

@@ -10,11 +10,9 @@
 	</div>
 	<div class="small-4 columns">
 		<div id="content">
-			<table>
-				{% if specificAddress is defined %}
-					{% include 'BonnesAdressesBundle:Default:detail.html.twig' with {'address': specificAddress} %}
-				{% endif %}
-			</table>
+			{% if specificAddress is defined %}
+				{% include 'BonnesAdressesBundle:Default:detail.html.twig' with {'address': specificAddress} %}
+			{% endif %}
 		</div>
 		<p>
 			<small>{% if lastmodification is defined %}
