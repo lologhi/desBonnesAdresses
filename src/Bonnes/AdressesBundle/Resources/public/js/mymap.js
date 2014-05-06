@@ -91,7 +91,15 @@ function init(){
 	map.addLayers([bingRoad, mappingLayer]);
 	map.addControl(new OpenLayers.Control.LayerSwitcher());
 
-	vectorLayer = new OpenLayers.Layer.Vector("Vector Layer", {projection: "EPSG:4326"});
+	filter = new OpenLayers.Filter.Comparison({
+	    type: OpenLayers.Filter.Comparison.LIKE,
+	    property: "Name",
+	    value: "La Trin"
+	});
+
+	filterStrategy = new OpenLayers.Strategy.Filter();
+
+	vectorLayer = new OpenLayers.Layer.Vector("Vector Layer", {projection: "EPSG:4326", strategies: [filterStrategy]});
 
 	selectMarkerControl = new OpenLayers.Control.SelectFeature(vectorLayer, {onSelect: onFeatureSelect, onUnselect: onFeatureUnselect});
 	map.addControl(selectMarkerControl);
@@ -146,3 +154,8 @@ init();
 		$('#content').html(data);
 	}});
 });/**/
+
+$("#filter input").keyup(function() {
+	filter.value = $(this).val();
+	filterStrategy.setFilter(filter);
+});

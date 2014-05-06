@@ -9,6 +9,13 @@
 		<div id="map"></div>
 	</div>
 	<div class="small-4 columns">
+		<form id="filter">
+			<div class="row">
+				<div class="small-12 columns">
+					<input type="text" id="right-label" placeholder="Filtrer sur le nom">
+				</div>
+			</div>
+		</form>
 		<div id="content">
 			{% if specificAddress is defined %}
 				{% include 'BonnesAdressesBundle:Default:detail.html.twig' with {'address': specificAddress} %}
