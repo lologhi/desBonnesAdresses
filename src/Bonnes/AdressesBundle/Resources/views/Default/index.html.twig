@@ -1,7 +1,7 @@
 {% extends '::base.html.twig' %}
 
 {% block title %}{% if specificAddress is defined %}{{ specificAddress.name }} - {% endif %}{{ parent() }}{% endblock %}
-{% block description %}{{ specificAddressComplete }}{% if specificAddress.description != "" %} - {{ specificAddress.description|truncate(100, true, '...') }}{% endif %}{% endblock %}
+{% block description %}{% if specificAddressComplete is defined %}{{ specificAddressComplete }}{% endif %}{% if (specificAddress is defined) and (specificAddress.description != "") %} - {{ specificAddress.description|truncate(100, true, '...') }}{% endif %}{% endblock %}
 
 
 {% block body %}
