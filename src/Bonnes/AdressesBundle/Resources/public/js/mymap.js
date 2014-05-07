@@ -91,10 +91,16 @@ function init(){
 	map.addLayers([bingRoad, mappingLayer]);
 	map.addControl(new OpenLayers.Control.LayerSwitcher());
 
-	filter = new OpenLayers.Filter.Comparison({
+	nameFilter = new OpenLayers.Filter.Comparison({
 	    type: OpenLayers.Filter.Comparison.LIKE,
 	    property: "Name",
-	    value: "La Trin"
+	    value: ""
+	});
+
+	categoryFilter = new OpenLayers.Filter.Comparison({
+		type: OpenLayers.Filter.Comparison.LIKE,
+		property: "Marker",
+		value: ""
 	});
 
 	filterStrategy = new OpenLayers.Strategy.Filter();
@@ -130,7 +136,7 @@ function placeMyMarkers(lat, lon, name, url, id, marker, detailUrl) {
 		graphicHeight : 18,
 		graphicOpacity: 1
 	}, OpenLayers.Feature.Vector.style['default']);
-	var randomFeature = new OpenLayers.Feature.Vector(lonLat, { Name: name, Url: url, Id: id, Lon : lon, Lat : lat, DetailUrl: detailUrl}, defaultStyle);
+	var randomFeature = new OpenLayers.Feature.Vector(lonLat, { Name: name, Url: url, Id: id, Lon : lon, Lat : lat, DetailUrl: detailUrl, Marker: marker}, defaultStyle);
 	vectorLayer.addFeatures(randomFeature);
 }
 
@@ -156,6 +162,10 @@ init();
 });/**/
 
 $("#filter input").keyup(function() {
-	filter.value = $(this).val();
-	filterStrategy.setFilter(filter);
+	nameFilter.value = $(this).val();
+	filterStrategy.setFilter(nameFilter);
+});
+$(".categoryFilter img").click(function() {
+	categoryFilter.value = $(this).attr("class");
+	filterStrategy.setFilter(categoryFilter);
 });
