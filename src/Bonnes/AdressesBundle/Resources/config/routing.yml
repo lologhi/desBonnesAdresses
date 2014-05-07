@@ -3,14 +3,18 @@ bonnes_adresses_homepage:
     defaults: { _controller: BonnesAdressesBundle:Default:index }
 
 bonnes_adresses_detailpage:
-    path:  /adresse/{name}
-    defaults: { _controller: BonnesAdressesBundle:Default:details, name: '' }
+    path:  /adresse/{slug}
+    defaults: { _controller: BonnesAdressesBundle:Default:details }
+
+bonnes_adresses_findbyname:
+    path:  /name/{name}
+    defaults: { _controller: BonnesAdressesBundle:Default:findByName }
 
 bonnes_adresses_slugfeeder:
     path:  /slugfeeder
     defaults: { _controller: BonnesAdressesBundle:Default:slugfeeder }
 
-bonnes_adresses_namepage:
+bonnes_adresses_detail_ajax:
     path:  /address
     defaults: { _controller: BonnesAdressesBundle:Default:address }
     methods:   [POST]

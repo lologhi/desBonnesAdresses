@@ -46,10 +46,10 @@ class DefaultController extends Controller {
         return new Response($this->serializer->serialize($address, 'json'));
     }
 
-    public function detailsAction($name) {
+    public function detailsAction($slug) {
         $addresses = $this->get('doctrine_mongodb')->getRepository('BonnesAdressesBundle:Adresse')->findAll();
         if (!$addresses) { throw $this->createNotFoundException('No addresses found'); }
-        $address = $this->get('doctrine_mongodb')->getRepository('BonnesAdressesBundle:Adresse')->findOneBySlug($name);
+        $address = $this->get('doctrine_mongodb')->getRepository('BonnesAdressesBundle:Adresse')->findOneBySlug($slug);
         if (!$address) { throw $this->createNotFoundException('No address found'); }
 
         return $this->render('BonnesAdressesBundle:Default:index.html.twig', array('addresses' => $addresses, 'specificAddress' => $address, 'specificAddressComplete' => $address->getAdresseComplete()));
