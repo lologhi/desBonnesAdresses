@@ -26,6 +26,9 @@ class AdresseAdmin extends Admin {
         ;
 
         $formMapper->with('Blabla')
+            ->add('latitude')
+            ->add('longitude')
+            ->add('marker')
             ->add('origine', null, array('required' => false))
             ->add('description', 'textarea', array('required' => false))
             ->add('prix', null, array('required' => false))
