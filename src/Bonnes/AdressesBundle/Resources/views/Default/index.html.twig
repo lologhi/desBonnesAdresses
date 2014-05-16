@@ -1,7 +1,13 @@
 {% extends '::base.html.twig' %}
 
 {% block title %}{% if specificAddress is defined %}{{ specificAddress.name }} - {% endif %}{{ parent() }}{% endblock %}
-{% block description %}{% if specificAddressComplete is defined %}{{ specificAddressComplete }}{% endif %}{% if (specificAddress is defined) and (specificAddress.description != "") %} - {{ specificAddress.description|truncate(100, true, '...') }}{% endif %}{% endblock %}
+{% block description %}{% spaceless %}
+	{% if specificAddressComplete is defined %}
+		{{ specificAddressComplete }}{% endif %}{% if (specificAddress is defined) and (specificAddress.description != "") %} - {{ specificAddress.description|truncate(100, true, '...') }}
+	{% else %}
+		Une sélection de mes adresses préférées à Paris. Restaurants, bars à vin, pubs, cafés...
+	{% endif %}
+{% endspaceless %}{% endblock %}
 
 
 {% block body %}
