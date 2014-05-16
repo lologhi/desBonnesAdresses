@@ -36,6 +36,20 @@ class DefaultController extends Controller {
         return $this->render('BonnesAdressesBundle:Default:index.html.twig', array('addresses' => $addresses, 'lastmodification' => $lastmodification));
     }
 
+    public function leafletAction() {
+        $filename = 'lastmodification.txt';
+        if (file_exists($filename)) { $lastmodification = new \DateTime(file_get_contents($filename)); }
+
+        $addresses = $this->get('doctrine_mongodb')->getRepository('BonnesAdressesBundle:Adresse')->findAll();
+        if (!$addresses) { throw $this->createNotFoundException('No addresses found'); }
+
+        // http://www.testically.org/2011/08/25/using-a-unique-index-in-mongodb-with-doctrine-odm-and-symfony2/
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm->getSchemaManager()->ensureIndexes();
+
+        return $this->render('BonnesAdressesBundle:Default:leaflet.html.twig', array('addresses' => $addresses, 'lastmodification' => $lastmodification));
+    }
+
     public function addressAction(Request $request) {
         $id = $request->request->get('idAddress');
         if (!$id) { throw $this->createNotFoundException('No id found'); }

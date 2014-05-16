@@ -2,6 +2,10 @@ bonnes_adresses_homepage:
     path:  /
     defaults: { _controller: BonnesAdressesBundle:Default:index }
 
+bonnes_adresses_homepage_v2:
+    path:  /v2
+    defaults: { _controller: BonnesAdressesBundle:Default:leaflet }
+
 bonnes_adresses_detailpage:
     path:  /adresse/{slug}
     defaults: { _controller: BonnesAdressesBundle:Default:details }

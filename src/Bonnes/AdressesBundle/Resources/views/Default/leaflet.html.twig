@@ -1,0 +1,66 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}{% if specificAddress is defined %}{{ specificAddress.name }} - {% endif %}{{ parent() }}{% endblock %}
+{% block description %}{% if specificAddressComplete is defined %}{{ specificAddressComplete }}{% endif %}{% if (specificAddress is defined) and (specificAddress.description != "") %} - {{ specificAddress.description|truncate(100, true, '...') }}{% endif %}{% endblock %}
+
+
+{% block body %}
+	<div class="small-8 columns">
+		<div id="map"></div>
+	</div>
+	<div class="small-4 columns">
+		<form id="filter">
+			<div class="row">
+				<div class="small-12 columns">
+					<input type="text" id="right-label" placeholder="Filtrer sur le nom">
+				</div>
+				<div class="small-12 columns categoryFilter">
+					<img class="bar" src="{{ asset('bundles/bonnesadresses/images/maki-icons/bar-18.png') }}">
+					<img class="restaurant" src="{{ asset('bundles/bonnesadresses/images/maki-icons/restaurant-18.png') }}">
+					<img class="alcohol-shop" src="{{ asset('bundles/bonnesadresses/images/maki-icons/alcohol-shop-18.png') }}">
+					<img class="cafe" src="{{ asset('bundles/bonnesadresses/images/maki-icons/cafe-18.png') }}">
+					<img class="grocery" src="{{ asset('bundles/bonnesadresses/images/maki-icons/grocery-18.png') }}">
+					<img class="fast-food" src="{{ asset('bundles/bonnesadresses/images/maki-icons/fast-food-18.png') }}">
+					<img class="museum" src="{{ asset('bundles/bonnesadresses/images/maki-icons/museum-18.png') }}">
+				</div>
+			</div>
+		</form>
+		<div id="content">
+			{% if specificAddress is defined %}
+				{% include 'BonnesAdressesBundle:Default:detail.html.twig' with {'address': specificAddress} %}
+			{% endif %}
+		</div>
+		<p>
+			<small>{% if lastmodification is defined %}
+				Dernier commit le {{ lastmodification|date("d/m/Y") }} à {{ lastmodification|date("G:i") }} par
+			{% endif %}
+			<a href="https://plus.google.com/u/0/+LaurentGhirardotti?rel=author">Laurent Ghirardotti</a></small>
+		</p>
+	</div>
+{% endblock %}
+
+
+{% block javascripts %}
+	{{ parent() }}
+
+	{% javascripts
+		'%kernel.root_dir%/../components/jquery/jquery.min.js'
+		'%kernel.root_dir%/../components/foundation/js/foundation.min.js'
+		'@BonnesAdressesBundle/Resources/public/js/leaflet.js'
+		'@BonnesAdressesBundle/Resources/public/js/mymap_leaflet.js'
+		filter='yui_js' %}
+		<script type="text/javascript" src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+
+	<script>
+		{% for address in addresses %}
+			{% set url = url('bonnes_adresses_detailpage', {'slug': address.slug}) %}
+			{% if (specificAddress is defined) and (address.id == specificAddress.id) %}
+				placeMySpecificMarkers({{ address.latitude }}, {{ address.longitude }}, '{{ address.name }}', '{{ url }}', '{{ address.id }}');
+			{% else %}
+				placeMyMarkers({{ address.latitude }}, {{ address.longitude }}, '{{ address.name }}', '{{ url }}', '{{ address.id }}', '{{ address.marker }}', "{{ path('bonnes_adresses_detail_ajax') }}");
+			{% endif %}
+		{% endfor %}
+	</script>
+
+{% endblock %}
