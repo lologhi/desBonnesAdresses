@@ -32,6 +32,8 @@
 			</div>
 		</form>
 		<div id="content">
+			<h1>Des bonnes adresses parisiennes</h1>
+			<h2>Une sélection de mes adresses préférées à Paris. Restaurants, bars à vin, pubs, cafés...</h2>
 			{% if specificAddress is defined %}
 				{% include 'BonnesAdressesBundle:Default:detail.html.twig' with {'address': specificAddress} %}
 			{% endif %}
