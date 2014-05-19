@@ -42,6 +42,10 @@
 		<p itemprop="url">{{ address.url }}</p>
 	{% endif %}
 
+	{% if (address.prix is defined) and (address.prix != '') %}
+		<p itemprop="priceRange">{{ address.prix }}</p>
+	{% endif %}
+
 	{% if ((address.origine is defined) and (address.origine != '')) or ((address.description is defined) and (address.description != '')) %}
 		<blockquote class="review" itemprop="review" itemscope itemtype="http://schema.org/Review">
 			{% if (address.description is defined) and (address.description != '') %}
