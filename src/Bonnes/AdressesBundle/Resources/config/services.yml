@@ -2,11 +2,18 @@ parameters:
 #    bonnes_adresses.example.class: Bonnes\AdressesBundle\Example
 
 services:
+
     adresses.admin:
         class: Bonnes\AdressesBundle\Admin\AdresseAdmin
         tags:
             - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Adresses", label: "Adresses" }
         arguments: [null, Bonnes\AdressesBundle\Document\Adresse, null]
+
+    adressestype.admin:
+        class: Bonnes\AdressesBundle\Admin\AdresseTypeAdmin
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Adresses", label: "Adresses Type" }
+        arguments: [null, Bonnes\AdressesBundle\Document\AdresseType, null]
 
     my.sitemap.listener:
         class: Bonnes\AdressesBundle\EventListener\SitemapListener
