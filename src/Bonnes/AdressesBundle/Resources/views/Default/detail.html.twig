@@ -1,4 +1,22 @@
-<div itemscope="" itemtype="http://schema.org/LocalBusiness">
+{% if address.marker is defined and address.marker == 'restaurant' %}
+	<div itemscope itemtype="http://schema.org/Restaurant">
+{% elseif address.marker is defined and address.marker == 'bar' %}
+	<div itemscope itemtype="http://schema.org/BarOrPub">
+{% elseif address.marker is defined and address.marker == 'cafe' %}
+	<div itemscope itemtype="http://schema.org/CafeOrCoffeeShop">
+{% elseif address.marker is defined and address.marker == 'fast-food' %}
+	<div itemscope itemtype="http://schema.org/FastFoodRestaurant">
+{% elseif address.marker is defined and address.marker == 'alcohol-shop' %}
+	<div itemscope itemtype="http://schema.org/Winery">
+{% elseif address.marker is defined and address.marker == 'grocery' %}
+	<div itemscope itemtype="http://schema.org/GroceryStore">
+{% elseif address.marker is defined and address.marker == 'museum' %}
+	<div itemscope itemtype="http://schema.org/Museum">
+{% elseif address.marker is defined and address.marker == 'art-gallery' %}
+	<div itemscope itemtype="http://schema.org/ArtGallery">
+{% else %}
+	<div itemscope itemtype="http://schema.org/LocalBusiness">
+{% endif %}
 
 	<h1 itemprop="name">{{ address.name }}</h1>
 
