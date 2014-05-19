@@ -25,6 +25,11 @@ class AdresseType {
 	protected $name;
 
 	/**
+	* @MongoDB\String
+	*/
+	protected $description;
+
+	/**
 	* Get id
 	*
 	* @return id $id
@@ -54,6 +59,28 @@ class AdresseType {
 	public function getName()
 	{
 		return $this->name;
+	}
+
+	/**
+	* Set description
+	*
+	* @param string $description
+	* @return self
+	*/
+	public function setDescription($description)
+	{
+		$this->description = $description;
+		return $this;
+	}
+
+	/**
+	* Get description
+	*
+	* @return string $description
+	*/
+	public function getDescription()
+	{
+		return $this->description;
 	}
 
 }

@@ -4,3 +4,4 @@ body { padding-top: 10px; }
 #content { overflow-y: scroll; height: 90%; }
 .olLayerDiv image:hover { cursor: pointer; }
 .categoryFilter img { cursor: pointer; }
+.has-tip { border-bottom: 0; }

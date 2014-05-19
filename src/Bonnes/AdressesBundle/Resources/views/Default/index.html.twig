@@ -20,16 +20,7 @@
 				<div class="small-12 columns">
 					<input type="text" id="right-label" placeholder="Filtrer sur le nom">
 				</div>
-				<div class="small-12 columns categoryFilter">
-					<img class="bar" src="{{ asset('bundles/bonnesadresses/images/maki-icons/bar-18.png') }}">
-					<img class="restaurant" src="{{ asset('bundles/bonnesadresses/images/maki-icons/restaurant-18.png') }}">
-					<img class="alcohol-shop" src="{{ asset('bundles/bonnesadresses/images/maki-icons/alcohol-shop-18.png') }}">
-					<img class="cafe" src="{{ asset('bundles/bonnesadresses/images/maki-icons/cafe-18.png') }}">
-					<img class="grocery" src="{{ asset('bundles/bonnesadresses/images/maki-icons/grocery-18.png') }}">
-					<img class="fast-food" src="{{ asset('bundles/bonnesadresses/images/maki-icons/fast-food-18.png') }}">
-					<img class="museum" src="{{ asset('bundles/bonnesadresses/images/maki-icons/museum-18.png') }}">
-					<img class="art-gallery" src="{{ asset('bundles/bonnesadresses/images/maki-icons/art-gallery-18.png') }}">
-				</div>
+				{{ render(controller('BonnesAdressesBundle:AdresseType:filter', { 'max': 3 })) }}
 			</div>
 		</form>
 		<div id="content">

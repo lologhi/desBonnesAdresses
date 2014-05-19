@@ -166,6 +166,10 @@ $("#filter input").keyup(function() {
 	filterStrategy.setFilter(nameFilter);
 });
 $(".categoryFilter img").click(function() {
-	categoryFilter.value = $(this).attr("class");
-	filterStrategy.setFilter(categoryFilter);
+	if ($(this).attr("class") == 'circle-stroked') {
+		filterStrategy.setFilter();
+	} else {
+		categoryFilter.value = $(this).attr("class");
+		filterStrategy.setFilter(categoryFilter);
+	}
 });
