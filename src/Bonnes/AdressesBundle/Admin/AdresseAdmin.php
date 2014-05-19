@@ -29,6 +29,7 @@ class AdresseAdmin extends Admin {
             ->add('latitude')
             ->add('longitude')
             ->add('marker')
+            ->add('type', null, array('required' => false, 'by_reference' => false, 'multiple' => false))
             ->add('origine', null, array('required' => false))
             ->add('description', 'textarea', array('required' => false))
             ->add('prix', null, array('required' => false))

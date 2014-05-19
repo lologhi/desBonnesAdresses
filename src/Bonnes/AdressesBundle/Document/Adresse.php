@@ -93,6 +93,11 @@ class Adresse
     protected $marker;
 
     /**
+     * @MongoDB\ReferenceMany(targetDocument="AdresseType", mappedBy="type")
+     */
+    protected $type;
+
+    /**
      * @MongoDB\Float
      */
     protected $longitude;
@@ -352,6 +357,28 @@ class Adresse
     public function getMarker()
     {
         return $this->marker;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     * @return self
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string $type
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 
     /**
