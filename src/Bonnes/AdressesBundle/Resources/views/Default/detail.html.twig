@@ -39,7 +39,7 @@
 	{% endif %}
 
 	{% if (address.url is defined) and (address.url != '') %}
-		<p itemprop="url">{{ address.url }}</p>
+		<p itemprop="url"><a href="{{ address.url }}">{{ address.name }}</a></p>
 	{% endif %}
 
 	{% if (address.prix is defined) and (address.prix != '') %}

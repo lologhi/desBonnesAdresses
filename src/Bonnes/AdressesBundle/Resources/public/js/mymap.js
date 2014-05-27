@@ -30,7 +30,7 @@ function displayAddressDetails(response) {
 	}
 
 	if (response.url != null) {
-		$('#content div').append('<p itemprop="url">' + response.url + '</p>');
+		$('#content div').append('<p itemprop="url"><a href="' + response.url + '">' + response.name + '</a></p>');
 	}
 
 	if (response.origine != null || response.description != null) {
