@@ -62,9 +62,9 @@
 	<p>{{ address.marker }}</p>
 	<p>
 		{{ address.latitude }}, {{ address.longitude }}
-		<div itemprop="geo" itemscope itemtype="http://schema.org/GeoCoordinates">
+		<span itemprop="geo" itemscope itemtype="http://schema.org/GeoCoordinates">
 			<meta itemprop="latitude" content="{{ address.latitude }}" />
 			<meta itemprop="longitude" content="{{ address.longitude }}" />
-		</div>
+		</span>
 	</p>
 </div>
