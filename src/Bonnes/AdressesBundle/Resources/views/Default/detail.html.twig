@@ -23,7 +23,7 @@
 	{% if ((address.adresse is defined) and (address.adresse != '')) or ((address.codePostal is defined) and (address.codePostal != '')) or ((address.ville is defined) and (address.ville != '')) %}
 		<p class="postalAddress" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
 			{% if (address.adresse is defined) and (address.adresse != '') %}
-				<span itemprop="streetAddress" itemprop="street-address">{{ address.adresse }} </span>
+				<span itemprop="streetAddress">{{ address.adresse }} </span>
 			{% endif %}
 			{% if (address.codePostal is defined) and (address.codePostal != '') %}
 				<span itemprop="postalCode">{{ address.codePostal }} </span>
