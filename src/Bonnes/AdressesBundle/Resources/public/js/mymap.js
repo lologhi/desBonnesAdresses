@@ -88,7 +88,7 @@ function init(){
 	// Bing's Road imagerySet (http://openlayers.org/blog/2010/12/18/bing-tiles-for-openlayers/)
 	// Et https://www.bingmapsportal.com/
 	bingRoad = new OpenLayers.Layer.Bing({key: apiKey, type: "Road"});
-	map.addLayers([bingRoad, mappingLayer]);
+	map.addLayers([mappingLayer, bingRoad]);
 	map.addControl(new OpenLayers.Control.LayerSwitcher());
 
 	nameFilter = new OpenLayers.Filter.Comparison({
