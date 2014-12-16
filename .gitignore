@@ -10,7 +10,7 @@
 /components/
 /bin/
 /composer.phar
-
+*~
 web/css/
 web/js/
 web/sitemap*
