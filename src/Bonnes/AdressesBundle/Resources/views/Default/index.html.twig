@@ -44,24 +44,38 @@
 {% block javascripts %}
 	{{ parent() }}
 
-    {% javascripts
-        '%kernel.root_dir%/../components/jquery/jquery.min.js'
-        '%kernel.root_dir%/../components/foundation/js/foundation.min.js'
-		'@BonnesAdressesBundle/Resources/public/js/OpenLayers.js'
-		'@BonnesAdressesBundle/Resources/public/js/mymap.js'
-        filter='yui_js' %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
-    {% endjavascripts %}
-
 	<script>
-		{% for address in addresses %}
-			{% set url = url('bonnes_adresses_detailpage', {'slug': address.slug}) %}
-			{% if (specificAddress is defined) and (address.id == specificAddress.id) %}
-				placeMySpecificMarkers({{ address.latitude }}, {{ address.longitude }}, '{{ address.name }}', '{{ url }}', '{{ address.id }}');
-			{% else %}
-				placeMyMarkers({{ address.latitude }}, {{ address.longitude }}, '{{ address.name }}', '{{ url }}', '{{ address.id }}', '{{ address.marker }}', "{{ path('bonnes_adresses_detail_ajax') }}");
-			{% endif %}
-		{% endfor %}
-	</script>
+	// Provide your access token
+	L.mapbox.accessToken = 'pk.eyJ1IjoibGF1cmVudGdoIiwiYSI6IjdveXNkOEUifQ.F7qS-bIlU5-e23HB-SBDpA';
+	// Create a map in the div #map
+	var map = L.mapbox.map('map', 'laurentgh.kfje8mf6').setView([48.853289, 2.348757], 12);
+	var featureLayer = L.mapbox.featureLayer().addTo(map);
+	
+	// Add custom popups to each using our custom feature properties
+	featureLayer.on('layeradd', function(e) {
+	    var marker = e.layer,
+	        feature = marker.feature;
 
+	    // Create custom popup content
+	    var popupContent =  '<a target="_blank" class="popup" href="' + feature.properties.slug + '">' +
+	                            feature.properties.name +
+	                        '</a><br>' +
+							'<p>' + feature.properties.adresse + ', ' + feature.properties.codePostal + ' ' + feature.properties.ville + '</p>' +
+							feature.properties.description;
+
+	    // http://leafletjs.com/reference.html#popup
+	    marker.bindPopup(popupContent,{
+	        closeButton: false,
+	        minWidth: 320,
+			maxHeight: 400
+	    });
+	});
+	
+	featureLayer.setGeoJSON({{ points|raw }});
+	
+	map.featureLayer.on('click', function(e) {
+        map.panTo(e.layer.getLatLng());
+    });
+	
+	</script>
 {% endblock %}
