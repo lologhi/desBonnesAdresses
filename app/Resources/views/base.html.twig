@@ -13,6 +13,7 @@
             {% stylesheets
                 '%kernel.root_dir%/../components/foundation/css/normalize.css'
                 '%kernel.root_dir%/../components/foundation/css/foundation.min.css'
+				'https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.css'
                 '@BonnesAdressesBundle/Resources/public/css/style.css'
                 '@BonnesAdressesBundle/Resources/public/js/theme/default/style.css'
             %}
@@ -23,6 +24,7 @@
         {% block javascriptHeader %}
             {% javascripts
                 '%kernel.root_dir%/../components/modernizr/modernizr.js'
+				'https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.js'
                 filter='yui_js' %}
                 <script type="text/javascript" src="{{ asset_url }}"></script>
             {% endjavascripts %}
