@@ -2,6 +2,9 @@
 
 namespace Bonnes\AdressesBundle\Controller;
 
+use Bonnes\AdressesBundle\Model\Geometry;
+use Bonnes\AdressesBundle\Model\Point;
+use Bonnes\AdressesBundle\Model\Properties;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,28 +15,45 @@ use Gedmo\Sluggable\Util as Sluggable;
 
 class DefaultController extends Controller {
 
-    private $encoders;
-    private $normalizers;
-    private $serializer;
-
-    public function __construct() {
-        $this->encoders = array(new JsonEncoder());
-        $this->normalizers = array(new GetSetMethodNormalizer());
-        $this->serializer = new Serializer($this->normalizers, $this->encoders);
-    }
-
     public function indexAction() {
         $filename = 'lastmodification.txt';
 		if (file_exists($filename)) { $lastmodification = new \DateTime(file_get_contents($filename)); }
 
+        $serializer = \JMS\Serializer\SerializerBuilder::create()->build();
         $addresses = $this->get('doctrine_mongodb')->getRepository('BonnesAdressesBundle:Adresse')->findAll();
         if (!$addresses) { throw $this->createNotFoundException('No addresses found'); }
 
         // http://www.testically.org/2011/08/25/using-a-unique-index-in-mongodb-with-doctrine-odm-and-symfony2/
-        $dm = $this->get('doctrine_mongodb')->getManager();
-        $dm->getSchemaManager()->ensureIndexes();
+        //$dm = $this->get('doctrine_mongodb')->getManager();
+        //$dm->getSchemaManager()->ensureIndexes();
 
-        return $this->render('BonnesAdressesBundle:Default:index.html.twig', array('addresses' => $addresses, 'lastmodification' => $lastmodification));
+        $points = array();
+        foreach ($addresses as $addresse) {
+            $properties = new Properties();
+            $properties->setName($addresse->getName());
+            $properties->setSlug($addresse->getSlug());
+            $properties->setMarker($addresse->getMarker());
+            $properties->setAdresse($addresse->getAdresse());
+            $properties->setCodePostal($addresse->getCodePostal());
+            $properties->setVille($addresse->getVille());
+            $properties->setUrl($addresse->getUrl());
+            $properties->setOrigine($addresse->getOrigine());
+            $properties->setPrix($addresse->getPrix());
+            $properties->setDescription($addresse->getDescription());
+            $properties->setTelephone($addresse->getTelephone());
+
+            $geometry = new Geometry();
+            $geometry->setType('Point');
+            $geometry->setCoordinates(array($addresse->getLongitude(), $addresse->getLatitude()));
+
+            $point = new Point();
+            $point->setType('Feature');
+            $point->setGeometry($geometry);
+            $point->setProperties($properties);
+            $points[] = $point;
+        }
+
+        return $this->render('BonnesAdressesBundle:Default:index.html.twig', array('points' => $serializer->serialize($points, 'json'), 'lastmodification' => $lastmodification));
     }
 
     public function leafletAction() {
