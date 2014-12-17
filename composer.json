@@ -24,7 +24,8 @@
         "sonata-project/doctrine-mongodb-admin-bundle": "dev-master",
         "components/foundation": "dev-master",
         "stof/doctrine-extensions-bundle": "~1.1@dev",
-        "presta/sitemap-bundle": "dev-master"
+        "presta/sitemap-bundle": "dev-master",
+        "jms/serializer": "0.17.*@dev"
     },
     "minimum-stability": "dev",
     "scripts": {
