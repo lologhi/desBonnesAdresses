@@ -14,5 +14,6 @@
 web/css/
 web/js/
 web/sitemap*
-
+web/vendor
 .idea/*
+npm-debug.log
