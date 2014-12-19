@@ -76,7 +76,9 @@ class DefaultController extends Controller {
         $address = $this->get('doctrine_mongodb')->getRepository('BonnesAdressesBundle:Adresse')->find($id);
         if (!$address) { throw $this->createNotFoundException('No address found'); }
 
-        return new Response($this->serializer->serialize($address, 'json'));
+        $serializer = new Serializer(array(new GetSetMethodNormalizer()), array(new JsonEncoder()));
+
+        return new Response($serializer->serialize($address, 'json'));
     }
 
     public function detailsAction($slug) {
