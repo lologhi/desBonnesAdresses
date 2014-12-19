@@ -32,11 +32,9 @@ class DefaultController extends Controller {
             $properties = new Properties();
             $properties->setName($addresse->getName());
             $properties->setSlug($addresse->getSlug());
-            $properties->setAdresse($addresse->getAdresse());
-            $properties->setCodePostal($addresse->getCodePostal());
-            $properties->setVille($addresse->getVille());
             $properties->setMarkerSymbol($addresse->getMarker());
             $properties->setMarkerSize('small');
+            $properties->setAdresse($addresse->getAdresseComplete());
             $properties->setUrl($addresse->getUrl());
             $properties->setOrigine($addresse->getOrigine());
             $properties->setPrix($addresse->getPrix());
