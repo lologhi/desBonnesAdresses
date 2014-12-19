@@ -3,10 +3,23 @@
 namespace Bonnes\AdressesBundle\Model;
 
 
+use JMS\Serializer\Annotation\SerializedName;
+
 class Properties
 {
     private $name;
-    private $marker;
+    /**
+     * @SerializedName("marker-symbol")
+     */
+    private $markerSymbol;
+    /**
+     * @SerializedName("marker-size")
+     */
+    private $markerSize;
+    /**
+     * @SerializedName("marker-color")
+     */
+    private $markerColor;
     private $slug;
     private $adresse;
     private $codePostal;
@@ -34,19 +47,51 @@ class Properties
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getMarker()
+    public function getMarkerSymbol()
     {
-        return $this->marker;
+        return $this->markerSymbol;
     }
 
     /**
-     * @param string $marker
+     * @param mixed $markerSymbol
      */
-    public function setMarker($marker)
+    public function setMarkerSymbol($markerSymbol)
     {
-        $this->marker = $marker;
+        $this->markerSymbol = $markerSymbol;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMarkerSize()
+    {
+        return $this->markerSize;
+    }
+
+    /**
+     * @param mixed $markerSize
+     */
+    public function setMarkerSize($markerSize)
+    {
+        $this->markerSize = $markerSize;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMarkerColor()
+    {
+        return $this->markerColor;
+    }
+
+    /**
+     * @param mixed $markerColor
+     */
+    public function setMarkerColor($markerColor)
+    {
+        $this->markerColor = $markerColor;
     }
 
     /**
