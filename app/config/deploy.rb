@@ -1,6 +1,7 @@
 set :application, "desBonnesAdresses"
 #set :domain,      #{application}.com"
 set :domain,      "37.187.47.67"
+set :user,        "root"
 set :deploy_to,   "/var/www/desBonnesAdresses"
 set :app_path,    "app"
 
