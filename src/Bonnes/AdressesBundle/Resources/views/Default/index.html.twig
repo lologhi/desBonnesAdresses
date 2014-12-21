@@ -23,6 +23,7 @@
 				{{ render(controller('BonnesAdressesBundle:Default:filter', { 'max': 3 })) }}
 			</div>
 		</form>
+		<a href='#' id='geolocate' class='ui-button'>Find me</a>
 		<div id="content">
 			{% if specificAddress is defined %}
 				{% include 'BonnesAdressesBundle:Default:detail.html.twig' with {'address': specificAddress} %}
@@ -78,7 +79,48 @@
 		});
 
 		map.featureLayer.on('ready', function() {
-
 		});
+
+
+		var geolocate = document.getElementById('geolocate');
+
+		var myLayer = L.mapbox.featureLayer().addTo(map);
+
+
+		if (!navigator.geolocation) {
+			geolocate.innerHTML = 'Geolocation is not available';
+		} else {
+			geolocate.onclick = function (e) {
+				e.preventDefault();
+				e.stopPropagation();
+				map.locate();
+			};
+		}
+
+		map.on('locationfound', function(e) {
+			map.setView([e.latlng.lat, e.latlng.lng], 16);
+			//map.fitBounds(e.bounds);
+
+			myLayer.setGeoJSON({
+				type: 'Feature',
+				geometry: {
+					type: 'Point',
+					coordinates: [e.latlng.lng, e.latlng.lat]
+				},
+				properties: {
+					'title': 'Here I am!',
+					'marker-color': '#ff8888',
+					'marker-symbol': 'star'
+				}
+			});
+
+			geolocate.parentNode.removeChild(geolocate);
+		});
+
+
+		map.on('locationerror', function() {
+			geolocate.innerHTML = 'Position could not be found';
+		});
+
 	</script>
 {% endblock %}
