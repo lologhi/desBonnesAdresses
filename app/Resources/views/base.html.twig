@@ -14,7 +14,7 @@
                 '%kernel.root_dir%/../web/vendor/foundation/css/normalize.css'
                 '%kernel.root_dir%/../web/vendor/foundation/css/foundation.css'
 				'https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.css'
-                '@BonnesAdressesBundle/Resources/public/css/style.css'
+                '@BonnesAdressesBundle/Resources/public/css/style.css' filter='cssrewrite'
             %}
                 <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
             {% endstylesheets %}
@@ -24,7 +24,7 @@
             {% javascripts
                 '%kernel.root_dir%/../web/vendor/modernizr/modernizr.js'
 				'https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.js'
-                filter='yui_js' %}
+                filter='cssrewrite, yui_js' %}
                 <script type="text/javascript" src="{{ asset_url }}"></script>
             {% endjavascripts %}
         {% endblock %}
