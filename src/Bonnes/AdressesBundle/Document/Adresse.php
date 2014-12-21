@@ -93,7 +93,7 @@ class Adresse
     protected $marker;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="AdresseType", mappedBy="type")
+     * @MongoDB\String
      */
     protected $type;
 
