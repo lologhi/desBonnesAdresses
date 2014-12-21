@@ -55,6 +55,16 @@ class DefaultController extends Controller {
         return $this->render('BonnesAdressesBundle:Default:index.html.twig', array('points' => $serializer->serialize($points, 'json'), 'lastmodification' => $lastmodification));
     }
 
+    public function filterAction() {
+        $types = $this->get('doctrine_mongodb')->getManager()
+            ->createQueryBuilder('BonnesAdressesBundle:Adresse')
+            ->distinct('marker')
+            ->getQuery()
+            ->execute();
+
+        return $this->render('BonnesAdressesBundle:Default:filter.html.twig', array('types' => $types));
+    }
+
     public function addressAction(Request $request) {
         $id = $request->request->get('idAddress');
         if (!$id) { throw $this->createNotFoundException('No id found'); }

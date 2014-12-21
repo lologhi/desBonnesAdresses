@@ -1,0 +1,22 @@
+<div class="small-12 columns categoryFilter">
+	<span data-tooltip class="has-tip filter" onclick="updateFilter('all')" title="Retirer les filtres">
+		<img class="circle-stroked" src="{{ asset('bundles/bonnesadresses/images/maki-icons/circle-stroked-18.png') }}">
+	</span>
+	{% for type in types %}
+		<span data-tooltip onclick="updateFilter('{{ type }}')" class="has-tip filter">
+			<img class="{{ type }}" src="{{ asset('bundles/bonnesadresses/images/maki-icons/' ~ type ~ '-18.png') }}">
+		</span>
+	{% endfor %}
+</div>
+
+<script>
+	function updateFilter(filter) {
+		featureLayer.setFilter(function(f) {
+			// If the data-filter attribute is set to "all", return
+			// all (true). Otherwise, filter on markers that have
+			// a value set to true based on the filter name.
+			return (filter === 'all') ? true : f.properties['marker-symbol'] === filter;
+		});
+		return false;
+	}
+</script>

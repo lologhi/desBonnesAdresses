@@ -20,7 +20,7 @@
 				<div class="small-12 columns">
 					<input type="text" id="right-label" placeholder="Filtrer sur le nom">
 				</div>
-				{{ render(controller('BonnesAdressesBundle:AdresseType:filter', { 'max': 3 })) }}
+				{{ render(controller('BonnesAdressesBundle:Default:filter', { 'max': 3 })) }}
 			</div>
 		</form>
 		<div id="content">
@@ -45,37 +45,40 @@
 	{{ parent() }}
 
 	<script>
-	// Provide your access token
-	L.mapbox.accessToken = 'pk.eyJ1IjoibGF1cmVudGdoIiwiYSI6IjdveXNkOEUifQ.F7qS-bIlU5-e23HB-SBDpA';
-	// Create a map in the div #map
-	var map = L.mapbox.map('map', 'laurentgh.kfje8mf6').setView([48.853289, 2.348757], 12);
-	var featureLayer = L.mapbox.featureLayer().addTo(map);
-	
-	// Add custom popups to each using our custom feature properties
-	featureLayer.on('layeradd', function(e) {
-	    var marker = e.layer,
-	        feature = marker.feature;
+		// Provide your access token
+		L.mapbox.accessToken = 'pk.eyJ1IjoibGF1cmVudGdoIiwiYSI6IjdveXNkOEUifQ.F7qS-bIlU5-e23HB-SBDpA';
+		// Create a map in the div #map
+		var map = L.mapbox.map('map', 'laurentgh.kfje8mf6').setView([48.853289, 2.348757], 12);
+		var featureLayer = L.mapbox.featureLayer().addTo(map);
 
-	    // Create custom popup content
-	    var popupContent =  '<a target="_blank" class="popup" href="' + feature.properties.slug + '">' +
-	                            feature.properties.name +
-	                        '</a><br>' +
-							'<p>' + feature.properties.adresse + '</p>' +
-							feature.properties.description;
+		// Add custom popups to each using our custom feature properties
+		featureLayer.on('layeradd', function(e) {
+			var marker = e.layer,
+				feature = marker.feature;
 
-	    // http://leafletjs.com/reference.html#popup
-	    marker.bindPopup(popupContent,{
-	        closeButton: false,
-	        minWidth: 320,
-			maxHeight: 400
-	    });
-	});
-	
-	featureLayer.setGeoJSON({{ points|raw }});
-	
-	map.featureLayer.on('click', function(e) {
-        map.panTo(e.layer.getLatLng());
-    });
-	
+			// Create custom popup content
+			var popupContent =  '<a target="_blank" class="popup" href="' + feature.properties.slug + '">' +
+									feature.properties.name +
+								'</a><br>' +
+								'<p>' + feature.properties.adresse + '</p>' +
+								feature.properties.description;
+
+			// http://leafletjs.com/reference.html#popup
+			marker.bindPopup(popupContent,{
+				closeButton: false,
+				minWidth: 320,
+				maxHeight: 400
+			});
+		});
+
+		featureLayer.setGeoJSON({{ points|raw }});
+
+		map.featureLayer.on('click', function(e) {
+			map.panTo(e.layer.getLatLng());
+		});
+
+		map.featureLayer.on('ready', function() {
+
+		});
 	</script>
 {% endblock %}
