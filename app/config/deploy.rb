@@ -25,6 +25,7 @@ set  :use_sudo,       false
 # logger.level = Logger::MAX_LEVEL
 
 after "deploy:finalize_update" do
+  run "cd #{latest_release} && bower install --allow-root --no-color"
   run "cd #{latest_release} && php app/console assetic:dump --env=prod"
   run "cd #{latest_release}/web && touch lastmodification.txt"
   run "sudo chown -R www-data:www-data #{latest_release}/#{cache_path}"
