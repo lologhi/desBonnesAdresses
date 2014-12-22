@@ -86,11 +86,6 @@ class DefaultController extends Controller {
         return $this->render('BonnesAdressesBundle:Default:index.html.twig', array('addresses' => $addresses, 'specificAddress' => $address, 'specificAddressComplete' => $address->getAdresseComplete()));
     }
 
-    public function findByNameAction($search) {
-        $addresses = $this->get('doctrine_mongodb')->getRepository('BonnesAdressesBundle:Adresse')->findByName($search);
-
-    }
-
     public function slugfeederAction() {
         $em = $this->get('doctrine_mongodb');
         $addresses = $em->getRepository('BonnesAdressesBundle:Adresse')->findAll();
