@@ -58,7 +58,7 @@
 				feature = marker.feature;
 
 			// Create custom popup content
-			var popupContent =  '<a target="_blank" class="popup" href="' + feature.properties.slug + '">' +
+			var popupContent =  '<a class="popup" href="' + Routing.generate('bonnes_adresses_detailpage', {slug: feature.properties.slug}) + '">' +
 									feature.properties.name +
 								'</a><br>' +
 								'<p>' + feature.properties.adresse + '</p>' +

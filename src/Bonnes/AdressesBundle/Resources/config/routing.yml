@@ -5,6 +5,8 @@ bonnes_adresses_homepage:
 bonnes_adresses_detailpage:
     path:  /adresse/{slug}
     defaults: { _controller: BonnesAdressesBundle:Default:details }
+    options:
+        expose: true
 
 bonnes_adresses_slugfeeder:
     path:  /slugfeeder
