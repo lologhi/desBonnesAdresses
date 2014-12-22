@@ -15,7 +15,11 @@
 			// If the data-filter attribute is set to "all", return
 			// all (true). Otherwise, filter on markers that have
 			// a value set to true based on the filter name.
-			return (filter === 'all') ? true : f.properties['marker-symbol'] === filter;
+			if (filter === 'all') {
+				return true;
+			} else {
+				return f.properties['marker-symbol'] === filter;
+			}
 		});
 		return false;
 	}
