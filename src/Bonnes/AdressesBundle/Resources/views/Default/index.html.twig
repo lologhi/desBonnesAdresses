@@ -95,9 +95,6 @@
 
 		map.on('locationfound', function(e) {
 			map.setView([e.latlng.lat, e.latlng.lng], 16);
-			//map.fitBounds(e.bounds);
-
-			myLayer.setGeoJSON({
 				type: 'Feature',
 				geometry: {
 					type: 'Point',
