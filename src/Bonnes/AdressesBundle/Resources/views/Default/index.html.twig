@@ -18,7 +18,7 @@
 		<form id="filter">
 			<div class="row">
 				<div class="small-12 columns">
-					<input type="text" id="right-label" placeholder="Filtrer sur le nom">
+					<input type="text" id="search" onkeyup="searchAdress()" placeholder="Filtrer sur le nom">
 				</div>
 				{{ render(controller('BonnesAdressesBundle:Default:filter', { 'max': 3 })) }}
 			</div>
@@ -95,6 +95,7 @@
 
 		map.on('locationfound', function(e) {
 			map.setView([e.latlng.lat, e.latlng.lng], 16);
+			featureLayer.setGeoJSON({
 				type: 'Feature',
 				geometry: {
 					type: 'Point',
@@ -112,5 +113,16 @@
 			geolocate.innerHTML = 'Position could not be found';
 		});
 		/* END GEOLOCATION */
+
+		/* START SEARCH */
+		function searchAdress() {
+			// get the value of the search input field
+			var searchString = document.getElementById("search").value.toLowerCase();
+			featureLayer.setFilter(showState);
+			function showState(feature) {
+				return feature.properties.name.toLowerCase().indexOf(searchString) !== -1;
+			}
+		}
+		/* END SEARCH */
 	</script>
 {% endblock %}
