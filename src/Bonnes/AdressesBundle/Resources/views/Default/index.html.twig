@@ -52,7 +52,7 @@
 		var map = L.mapbox.map('map', 'laurentgh.kfje8mf6').setView([48.853289, 2.348757], 12);
 		var featureLayer = L.mapbox.featureLayer().addTo(map);
 
-		// Add custom popups to each using our custom feature properties
+		// Popups
 		featureLayer.on('layeradd', function(e) {
 			var marker = e.layer,
 				feature = marker.feature;
@@ -72,8 +72,10 @@
 			});
 		});
 
+		// Add points
 		featureLayer.setGeoJSON({{ points|raw }});
 
+		// Center map
 		map.featureLayer.on('click', function(e) {
 			map.panTo(e.layer.getLatLng());
 		});
@@ -82,6 +84,7 @@
 		});
 
 
+		/* START GEOLOCATION */
 		var geolocate = document.getElementById('geolocate');
 
 		var myLayer = L.mapbox.featureLayer().addTo(map);
@@ -122,5 +125,6 @@
 			geolocate.innerHTML = 'Position could not be found';
 		});
 
+		/* END GEOLOCATION */
 	</script>
 {% endblock %}
