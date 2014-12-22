@@ -19,7 +19,6 @@ class DefaultController extends Controller {
         $filename = 'lastmodification.txt';
 		if (file_exists($filename)) { $lastmodification = new \DateTime(file_get_contents($filename)); }
 
-        $serializer = \JMS\Serializer\SerializerBuilder::create()->build();
         $addresses = $this->get('doctrine_mongodb')->getRepository('BonnesAdressesBundle:Adresse')->findAll();
         if (!$addresses) { throw $this->createNotFoundException('No addresses found'); }
 
@@ -27,32 +26,7 @@ class DefaultController extends Controller {
         //$dm = $this->get('doctrine_mongodb')->getManager();
         //$dm->getSchemaManager()->ensureIndexes();
 
-        $points = array();
-        foreach ($addresses as $addresse) {
-            $properties = new Properties();
-            $properties->setName($addresse->getName());
-            $properties->setSlug($addresse->getSlug());
-            $properties->setMarkerSymbol($addresse->getMarker());
-            $properties->setMarkerSize('small');
-            $properties->setAdresse($addresse->getAdresseComplete());
-            $properties->setUrl($addresse->getUrl());
-            $properties->setOrigine($addresse->getOrigine());
-            $properties->setPrix($addresse->getPrix());
-            $properties->setDescription($addresse->getDescription());
-            $properties->setTelephone($addresse->getTelephone());
-
-            $geometry = new Geometry();
-            $geometry->setType('Point');
-            $geometry->setCoordinates(array($addresse->getLongitude(), $addresse->getLatitude()));
-
-            $point = new Point();
-            $point->setType('Feature');
-            $point->setGeometry($geometry);
-            $point->setProperties($properties);
-            $points[] = $point;
-        }
-
-        return $this->render('BonnesAdressesBundle:Default:index.html.twig', array('points' => $serializer->serialize($points, 'json'), 'lastmodification' => $lastmodification));
+        return $this->render('BonnesAdressesBundle:Default:index.html.twig', array('points' => $this->get('geojsonmaker')->fromDoctrine($addresses), 'lastmodification' => $lastmodification));
     }
 
     public function filterAction() {
@@ -83,7 +57,7 @@ class DefaultController extends Controller {
         $address = $this->get('doctrine_mongodb')->getRepository('BonnesAdressesBundle:Adresse')->findOneBySlug($slug);
         if (!$address) { throw $this->createNotFoundException('No address found'); }
 
-        return $this->render('BonnesAdressesBundle:Default:index.html.twig', array('addresses' => $addresses, 'specificAddress' => $address, 'specificAddressComplete' => $address->getAdresseComplete()));
+        return $this->render('BonnesAdressesBundle:Default:index.html.twig', array('points' => $this->get('geojsonmaker')->fromDoctrine($addresses), 'specificAddress' => $address, 'specificAddressComplete' => $address->getAdresseComplete()));
     }
 
     public function slugfeederAction() {

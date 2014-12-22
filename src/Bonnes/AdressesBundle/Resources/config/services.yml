@@ -2,6 +2,9 @@ parameters:
 #    bonnes_adresses.example.class: Bonnes\AdressesBundle\Example
 
 services:
+    geojsonmaker:
+        class: Bonnes\AdressesBundle\Services\GeojsonMaker
+        arguments: [@serializer]
 
     adresses.admin:
         class: Bonnes\AdressesBundle\Admin\AdresseAdmin
