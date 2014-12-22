@@ -109,15 +109,11 @@
 					'marker-symbol': 'star'
 				}
 			});
-
 			geolocate.parentNode.removeChild(geolocate);
 		});
-
-
 		map.on('locationerror', function() {
 			geolocate.innerHTML = 'Position could not be found';
 		});
-
 		/* END GEOLOCATION */
 	</script>
 {% endblock %}
