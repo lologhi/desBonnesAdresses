@@ -24,10 +24,13 @@
             {% javascripts
                 '%kernel.root_dir%/../web/vendor/modernizr/modernizr.js'
 				'https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.js'
+                '%kernel.root_dir%/../web/bundles/fosjsrouting/js/router.js'
                 filter='yui_js' %}
                 <script type="text/javascript" src="{{ asset_url }}"></script>
             {% endjavascripts %}
         {% endblock %}
+
+        <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
     </head>
 
 
