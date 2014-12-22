@@ -80,16 +80,9 @@
 			map.panTo(e.layer.getLatLng());
 		});
 
-		map.featureLayer.on('ready', function() {
-		});
-
 
 		/* START GEOLOCATION */
 		var geolocate = document.getElementById('geolocate');
-
-		var myLayer = L.mapbox.featureLayer().addTo(map);
-
-
 		if (!navigator.geolocation) {
 			geolocate.innerHTML = 'Geolocation is not available';
 		} else {
