@@ -32,7 +32,7 @@ after "deploy:finalize_update" do
   run "sudo chown -R www-data:www-data #{latest_release}/#{log_path}"
   run "sudo chmod -R 777 #{latest_release}/#{cache_path}"
   run "sudo mongo --quiet bonnesadresses --eval 'db.Adresse.remove({}) ' >> /tmp/mongo_output.txt"
-  run "sudo mongoimport --quiet -d bonnesadresses -c Adresse --file #{latest_release}/StarredPlacesNew.geojson --jsonArray"
+  run "sudo mongoimport --quiet -d bonnesadresses -c Adresse --file #{latest_release}/StarredPlaces.geojson --jsonArray"
   run "curl http://desbonnesadresses.fr/slugfeeder --output '/tmp/curl_output.txt' --silent"
   run "cd #{latest_release} && php app/console presta:sitemap:dump"
   run "cd #{latest_release}/web && git log -1 --format='%cd' >lastmodification.txt"
