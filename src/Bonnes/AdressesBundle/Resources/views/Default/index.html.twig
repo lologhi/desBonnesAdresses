@@ -1,9 +1,9 @@
 {% extends '::base.html.twig' %}
 
-{% block title %}{% if specificAddress is defined %}{{ specificAddress.name }} - {% endif %}{{ parent() }}{% endblock %}
+{% block title %}{% if specificAddress is defined and specificAddress != '' %}{{ specificAddress.name }} - {% endif %}{{ parent() }}{% endblock %}
 {% block description %}{% spaceless %}
-	{% if specificAddressComplete is defined %}
-		{{ specificAddressComplete }}{% endif %}{% if (specificAddress is defined) and (specificAddress.description != "") %} - {{ specificAddress.description|truncate(100, true, '...') }}
+	{% if specificAddress is defined and specificAddress != '' %}
+		{{ specificAddress.getAdresseComplete() }} - {{ specificAddress.description|truncate(100, true, '...') }}
 	{% else %}
 		Une sélection de mes adresses préférées à Paris. Restaurants, bars à vin, pubs, cafés...
 	{% endif %}
@@ -25,8 +25,8 @@
 		</form>
 		<a href='#' id='geolocate' class='ui-button'>Find me</a>
 		<div id="content">
-			{% if specificAddress is defined %}
-				{% include 'BonnesAdressesBundle:Default:detail.html.twig' with {'address': specificAddress} %}
+			{% if specificAddress is defined and specificAddress != '' %}
+				{% include 'BonnesAdressesBundle:Default:details.html.twig' with {'address': specificAddress} %}
 			{% else %}
 				<h1>Des bonnes adresses parisiennes</h1>
 				<h2>Une sélection de mes adresses préférées à Paris. Restaurants, bars à vin, pubs, cafés...</h2>
@@ -58,7 +58,7 @@
 				feature = marker.feature;
 
 			// Create custom popup content
-			var popupContent =  '<a class="popup" href="' + Routing.generate('bonnes_adresses_detailpage', {slug: feature.properties.slug}) + '">' +
+			var popupContent =  '<a class="popup" href="' + Routing.generate('bonnes_adresses_homepage', {slug: feature.properties.slug}) + '">' +
 									feature.properties.name +
 								'</a><br>' +
 								'<p>' + feature.properties.adresse + '</p>' +
