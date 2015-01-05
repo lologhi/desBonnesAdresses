@@ -37,7 +37,7 @@ class SitemapListener implements SitemapListenerInterface {
         }
 		$addresses = $this->doctrine->getRepository('BonnesAdressesBundle:Adresse')->findAll();
 		foreach($addresses as $address) {
-			$url = $this->router->generate('bonnes_adresses_detailpage', array('slug' => $address->getSlug()), true);
+			$url = $this->router->generate('bonnes_adresses_homepage', array('slug' => $address->getSlug()), true);
 
 			//add homepage url to the urlset named default
 			$event->getGenerator()->addUrl(
