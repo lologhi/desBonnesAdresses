@@ -95,7 +95,8 @@
 
 		map.on('locationfound', function(e) {
 			map.setView([e.latlng.lat, e.latlng.lng], 16);
-			featureLayer.setGeoJSON({
+			var locationLayer = L.mapbox.featureLayer().addTo(map);
+			locationLayer.setGeoJSON({
 				type: 'Feature',
 				geometry: {
 					type: 'Point',
