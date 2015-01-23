@@ -49,7 +49,12 @@
 		// Provide your access token
 		L.mapbox.accessToken = 'pk.eyJ1IjoibGF1cmVudGdoIiwiYSI6IjdveXNkOEUifQ.F7qS-bIlU5-e23HB-SBDpA';
 		// Create a map in the div #map
-		var map = L.mapbox.map('map', 'laurentgh.kfje8mf6').setView([48.853289, 2.348757], 12);
+		var map = L.mapbox.map('map', 'laurentgh.kfje8mf6');
+		{% if specificAddress is defined and specificAddress != '' %}
+			map.setView([{{ specificAddress.latitude }}, {{ specificAddress.longitude }}], 14);
+		{% else %}
+			map.setView([48.853289, 2.348757], 12);
+		{% endif %}
 		var featureLayer = L.mapbox.featureLayer().addTo(map);
 
 		// Popups
@@ -73,7 +78,17 @@
 		});
 
 		// Add points
-		featureLayer.setGeoJSON({{ points|raw }});
+		featureLayer
+				.setGeoJSON({{ points|raw }})
+				.eachLayer(function(marker) {
+					if ('{{ specificAddress.name }}' === marker.toGeoJSON().properties.name) {
+						marker.setIcon(L.mapbox.marker.icon({
+							'marker-color': '#ff8888',
+							'marker-size': 'large',
+							'marker-symbol': marker.toGeoJSON().properties['marker-symbol']
+						}));
+					}
+				});
 
 		// Center map
 		map.featureLayer.on('click', function(e) {
