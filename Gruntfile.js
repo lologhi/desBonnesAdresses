@@ -50,10 +50,22 @@ module.exports = function(grunt) {
                 files: ['src/Bonnes/*/Resources/public/js/*.js'],
                 tasks: ['javascript']
             }
+        },
+
+        copy: {
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd: 'web/vendor/mapbox.js/images',
+                    dest: 'web/built/images',
+                    src: ['**']
+                }]
+            }
         }
     });
 
     grunt.registerTask('default', ['css', 'javascript']);
     grunt.registerTask('css', ['cssmin']);
     grunt.registerTask('javascript', ['uglify']);
+    grunt.registerTask('cp', ['copy']);
 };
