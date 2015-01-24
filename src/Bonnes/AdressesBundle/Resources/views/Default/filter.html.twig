@@ -1,9 +1,9 @@
 <div class="small-12 columns categoryFilter">
-	<span data-tooltip aria-haspopup="true" class="has-tip tip-top" title="Retirer les filtres" onclick="updateFilter('all')">
+	<span onclick="updateFilter('all')">
 		<img class="circle-stroked" src="{{ asset('bundles/bonnesadresses/images/maki-icons/circle-stroked-18.png') }}">
 	</span>
 	{% for type in types %}
-		<span data-tooltip aria-haspopup="true" class="has-tip tip-top" title="{{ type }}" onclick="updateFilter('{{ type }}')">
+		<span title="{{ type }}" onclick="updateFilter('{{ type }}')">
 			<img class="{{ type }}" src="{{ asset('bundles/bonnesadresses/images/maki-icons/' ~ type ~ '-18.png') }}">
 		</span>
 	{% endfor %}
