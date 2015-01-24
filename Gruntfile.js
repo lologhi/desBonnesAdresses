@@ -13,8 +13,8 @@ module.exports = function(grunt) {
                 },
                 files: {
                     'web/built/min.css': [
-                        'web/vendor/foundation/normalize.css',
-                        'web/vendor/foundation/foundation.css',
+                        'web/vendor/foundation/css/normalize.css',
+                        'web/vendor/foundation/css/foundation.css',
                         'web/vendor/mapbox.js/mapbox.css',
                         'src/Bonnes/*/Resources/public/css/style.css'
                     ]
