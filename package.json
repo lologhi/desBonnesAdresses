@@ -1,0 +1,29 @@
+{
+  "name": "desBonnesAdresses",
+  "version": "1.0.0",
+  "description": "desBonnesAdresses ==============",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lologhi/desBonnesAdresses.git"
+  },
+  "author": "Laurent Ghirardotti",
+  "license": "MIT",
+  "dependencies": {
+    "grunt": "^0.4.5",
+    "load-grunt-tasks": "^0.6.0",
+    "grunt-contrib-compass": "^1.0.1",
+    "grunt-contrib-uglify": "^0.6.0",
+    "grunt-contrib-cssmin": "^0.10.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-contrib-copy": "^0.6.0",
+    "grunt-typescript": "^0.3.8"
+  },
+  "bugs": {
+    "url": "https://github.com/lologhi/desBonnesAdresses/issues"
+  },
+  "homepage": "https://github.com/lologhi/desBonnesAdresses"
+}

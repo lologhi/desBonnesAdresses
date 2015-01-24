@@ -17,3 +17,7 @@ web/sitemap*
 web/vendor
 .idea/*
 npm-debug.log
+/.tmp
+/.sass-cache
+/node_modules/
+web/built/
