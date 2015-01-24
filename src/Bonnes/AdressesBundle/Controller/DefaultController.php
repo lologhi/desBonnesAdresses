@@ -20,8 +20,7 @@ class DefaultController extends Controller {
 	 * @Template
 	 */
     public function indexAction($slug = null) {
-        $filename = 'lastmodification.txt';
-		if (file_exists($filename)) { $lastmodification = new \DateTime(file_get_contents($filename)); }
+		$lastmodification = shell_exec("git log -1 --pretty=format:'%h - %s (%ci)' --abbrev-commit");
 
         $addresses = $this->get('doctrine_mongodb')->getRepository('BonnesAdressesBundle:Adresse')->findAll();
         if (!$addresses) { throw $this->createNotFoundException('No addresses found'); }

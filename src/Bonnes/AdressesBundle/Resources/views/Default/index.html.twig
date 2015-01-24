@@ -32,12 +32,7 @@
 				<h2>Une sélection de mes adresses préférées à Paris. Restaurants, bars à vin, pubs, cafés...</h2>
 			{% endif %}
 		</div>
-		<p>
-			<small>{% if lastmodification is defined %}
-				Dernier commit le {{ lastmodification|date("d/m/Y") }} à {{ lastmodification|date("G:i") }} par
-			{% endif %}
-			<a href="https://plus.google.com/u/0/+LaurentGhirardotti?rel=author">Laurent Ghirardotti</a></small>
-		</p>
+		<p class="footer"><small>Last modification : {{ lastmodification }} by <a href="https://plus.google.com/u/0/+LaurentGhirardotti?rel=author">Laurent Ghirardotti</a></small></p>
 	</div>
 {% endblock %}
 
