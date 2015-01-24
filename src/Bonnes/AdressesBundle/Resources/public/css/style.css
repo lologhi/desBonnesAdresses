@@ -1,8 +1,10 @@
 html, body, .row, .columns, #map { height:100%; max-height:100%; overflow-y: scroll; }
 body { padding-top: 10px; }
+p { margin-bottom: .5rem; }
 /*circle { fill: #0A00FF; fill-opacity: 0.7; stroke: #0A00FF; }*/
 .olLayerDiv image:hover { cursor: pointer; }
 .categoryFilter img { cursor: pointer; }
 .has-tip { border-bottom: 0; }
 blockquote, blockquote p { line-height: 1.3; color: #6f6f6f; font-size: 13px; }
 blockquote { margin: 0 0 1.25rem; padding: 0 0 0 0.875rem; }
+.footer { margin-bottom: 0; line-height: .8; }
